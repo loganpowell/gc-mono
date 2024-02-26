@@ -1,4 +1,4 @@
-# Gaza Care
+# Gaza Care App
 
 Web app to provide essential First Aid training materials in the form of instructional videos and rich text to allow
 anyone to easily access crucial information to save lives.
