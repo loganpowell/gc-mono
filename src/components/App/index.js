@@ -1,4 +1,5 @@
 import './styles.css';
+import './styles-large.css';
 
 import Logo from '@assets/images/logo.png';
 
