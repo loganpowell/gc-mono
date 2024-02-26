@@ -14,7 +14,7 @@ const App = () => {
         </div>  
       </div>
       <div className="videos">
-        <video src="https://gaza-care.com/AR_UKR001_BURN_V4.03.mp4" />
+        <video src="https://gaza-care.com/AR_UKR001_BURN_V4.03.mp4" controls />
       </div>
     </div>
   )
