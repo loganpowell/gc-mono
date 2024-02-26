@@ -1,0 +1,86 @@
+* First Aid For Gaza
+
+** Purpose
+
+To save lives by giving anyone with a phone information they need to perform first aid on those who are injured.
+
+** Format
+
+Medics can submit initial content as videos, or documents or images. Initially just
+support videos.
+
+** Requirements
+
+*** User side (gaza-care.com)
+
+
+- Serve short video content -> Need storage like s3 (cloudflare R2)
+
+*** Admin side (admin.gaza-care.com)
+
+- have a UI to be able to approve videos
+
+  
+*** Content Creator UI (medic.gaza-care.com)
+
+- have a UI to be able to upload videos
+
+- prevent duplicate video uploads
+
+- log views of content
+
+- log search terms
+
+- log location
+
+*** Schema
+
+
+**** Videos
+
+| id | uploader_id | title | description | keywords | filename | md5_hash | content_text | metadata | status                      | created_at | updated_at | 
+|    |             |       |             |          |          |          |              |          | pending_approval / approved |            |            | 
+
+GET /videos?q={keywords}
+
+select * from videos v left join taggable vt
+  on vt.taggable_id = v.id and vt.taggable_tyoe = 'video'
+  inner join tags t on vt.tag_id = t.id
+  where v.status = 'approved' and
+    (description like '%?%' or t.name in (?)), keywords
+
+**** views
+| id | viewable_id | viewer_ip | geolocation_data | created_at | updated_at |
+|    |             |           |                  |            |            |
+
+**** searches
+
+| id | search_text | result_count | searcher_ip | created_at | updated_at |
+|    |             |              |             |            |            |
+
+**** ip_geolocation
+
+| id | ip | geolocation | created_at | updated_at |
+|    |    |             |            |            |
+
+**** uploader
+
+| id | username | uid | created_at | updated_at |
+|    |          |     |            |            |
+
+**** admins
+
+| id | username | uid | created_at | updated_at |
+|    |          |     |            |            |
+
+
+**** tags
+
+| id | name | colour | created_at | updated_at |
+|    |      |        |            |            |
+
+
+**** taggable
+
+| tag_id | taggable_id | taggable_type | created_at | updated_at |
+|        |             |               |            |            |

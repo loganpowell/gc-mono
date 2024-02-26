@@ -1,0 +1,28 @@
+name = "api"
+compatibility_date = "2023-12-01"
+
+# [vars]
+# MY_VARIABLE = "production_value"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+[env.staging]
+d1_databases = [
+  { binding = "DB", database_name = "gaza-care-staging", database_id = "fd67f652-fe9c-4465-8eeb-8c1e6c70ab94" }
+]
+
+[env.production]
+d1_databases = [
+  { binding = "DB", database_name = "gaza-care-production", database_id = "9a5db72f-50cf-4b31-886e-f5064610194c"}
+]
