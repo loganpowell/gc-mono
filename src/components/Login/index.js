@@ -19,10 +19,11 @@ const Login = () => {
         onSuccess={response => {
           fetch(`${process.env.API_URI}/v1/auth/google/success`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({creds: response.credential})
+            body: JSON.stringify({creds: response.credential, userType: 'medic'})
           }).then(async response => await response.json())
             .then(async json => {
               await dispatch({type: 'RECEIVED_AUTH', data: {...json}});

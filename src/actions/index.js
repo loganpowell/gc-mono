@@ -4,7 +4,8 @@ const authenticate = (dispatch, navigate, redirectUrl) => {
   dispatch({ type: "REQUESTING_AUTH" });
 
   fetch(`${BASE_URI}/v1/session`, {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
   }).then(async response => {
     if (response.ok) {
       const json = await response.json();
@@ -24,7 +25,8 @@ const logout = (dispatch, navigate) => {
   dispatch({type: 'REQUESTING_LOGOUT'});
 
   fetch(`${BASE_URI}/v1/logout`, {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
   }).then(response => {
     dispatch({type: 'RECEIVED_LOGOUT'});
     navigate('/login');
