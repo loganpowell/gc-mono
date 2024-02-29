@@ -1,6 +1,9 @@
 name = "api"
 compatibility_date = "2023-12-01"
 
+[placement]
+mode = "smart"
+
 # [vars]
 # MY_VARIABLE = "production_value"
 
@@ -11,11 +14,6 @@ compatibility_date = "2023-12-01"
 # [[r2_buckets]]
 # binding = "MY_BUCKET"
 # bucket_name = "my-bucket"
-
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
 
 [env.staging]
 d1_databases = [
