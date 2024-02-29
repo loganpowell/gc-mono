@@ -2,7 +2,7 @@
   "scripts": {
     "db:schema:generate": "drizzle-kit generate:sqlite --schema=db/schema.ts",
     "dev": "wrangler dev src/index.ts -e staging",
-    "deploy": "wrangler deploy --minify src/index.ts -e production"
+    "deploy": "wrangler deploy -e production --minify src/index.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.29.4",
