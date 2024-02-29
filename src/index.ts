@@ -11,7 +11,7 @@ import { User } from './models';
 const app = new Hono()
 
 app.use('*', cors({
-  origin: '*',
+  origin: ['http://localhost:8788', 'https://medic.gaza-care.com'],
   allowHeaders: ['Content-Type', 'Authorization'],
   allowMethods: ['POST', 'GET', 'OPTIONS'],
   exposeHeaders: ['Content-Length'],
@@ -30,13 +30,17 @@ app.use('*', async (context, next) => {
 });
 
 app.post('/v1/auth/google/success', async c => {
-  let user = currentUser(c);
+  let user = await currentUser(c);
 
   if (!user) {
-    const { creds, userType } = await context.req.raw.json();
+    const { creds, userType } = await c.req.raw.json();
     const credentials = jose.decodeJwt(creds);
     const uid = crypto.randomUUID();
-    user = await User(c.var.db).create({username: `goog-${credentials.sub, uid, userType}`});
+    const username = `goog-${credentials.sub}`;
+    user = await User(c.var.db).create({username, uid, userType});
+    if (!user) {
+      user = await User(c.var.db).withUsername(username);
+    }
   }
 
   return new Response(
@@ -67,7 +71,7 @@ const currentUser = async context => {
   const uid = currentUID(context);
 
   if (uid) {
-    const user = await User(db).withUID(uid);
+    const user = await User(context.var.db).withUID(uid);
 
     if (!user) return null;
 
