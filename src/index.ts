@@ -6,7 +6,7 @@ import { eq, and } from 'drizzle-orm';
 import * as jose from 'jose';
 
 import * as schema from '../db/schema';
-import { User } from './models';
+import { User, UserIdentity, AuthProvider } from './models';
 
 const app = new Hono()
 
@@ -30,6 +30,8 @@ app.use('*', async (context, next) => {
 });
 
 app.post('/v1/auth/google/success', async c => {
+  let authProvider = await AuthProvider(c.var.db).create({name: 'google'});
+  authProvider ||= await AuthProvider(c.var.db).withName({name: 'google'});
   let user = await currentUser(c);
 
   if (!user) {
@@ -38,6 +40,9 @@ app.post('/v1/auth/google/success', async c => {
     const uid = crypto.randomUUID();
     const username = `goog-${credentials.sub}`;
     user = await User(c.var.db).create({username, uid, userType});
+    if (user) {
+      const identity = await UserIdentity(c.var.db).create({userID: user.id, authProviderID: authProvider.id, providerUserID: credentials.sub, profile: JSON.stringify(credentials)});
+    }
     if (!user) {
       user = await User(c.var.db).withUsername(username);
     }
@@ -52,12 +57,10 @@ app.post('/v1/auth/google/success', async c => {
 });
 
 app.get('/v1/session', async c => {
-  const uid = await currentUID(c);
+  const user = await currentUser(c);
 
-  if (uid) {
-    const user = await User(c.var.db).withUID(uid);
-
-    return new Response(user, {status: 200});
+  if (user) {
+    return new Response(JSON.stringify(user), {status: 200});
   }
 
   return new Response('unauthorized', {status: 401});
@@ -68,7 +71,7 @@ const currentUID = async context => {
 }
 
 const currentUser = async context => {
-  const uid = currentUID(context);
+  const uid = await currentUID(context);
 
   if (uid) {
     const user = await User(context.var.db).withUID(uid);

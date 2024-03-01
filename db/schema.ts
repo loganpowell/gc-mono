@@ -6,8 +6,8 @@ const autoIncrementID = {
 };
 
 const timeStamps = {
-  createdAt: integer('created_at', {mode: 'timestamp_ms'}).notNull().default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: integer('updated_at', {mode: 'timestamp_ms'}).notNull().default(sql`CURRENT_TIMESTAMP`)
+  createdAt: integer('created_at', {mode: 'timestamp'}).notNull().default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: integer('updated_at', {mode: 'timestamp'}).notNull().default(sql`CURRENT_TIMESTAMP`)
 }
 
 export const videos = sqliteTable('videos', {
