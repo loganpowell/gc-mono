@@ -18,7 +18,7 @@ const App = () => {
   return (
     <div className="App">
       {
-        state.user.email && <div className="logout-button" onClick={() => logout(dispatch, navigate) }><button className="button">Logout</button></div>
+        state.user.uid && <div className="logout-button" onClick={() => logout(dispatch, navigate) }><button className="button">Logout</button></div>
       }
       <Outlet context={{state, dispatch}} />
     </div>

@@ -10,6 +10,13 @@ const Login = () => {
   const navigate = useNavigate();
   const [searchParams, _] = useSearchParams();
 
+  useEffect(() => {
+    if (state.user.uid) navigate('/');
+
+  }, [state.user.uid]);
+
+  if (state.user.uid) return null;
+
   return (
     <div className="Login">
       <GoogleLogin
