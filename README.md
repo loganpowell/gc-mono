@@ -20,6 +20,12 @@ npx yarn install
 
 - Start
 
+keep the build running:
+```
+npx yarn build:dev --watch
+```
+
+Run cloudflare pages:
 ```
 npx wrangler pages dev dist
 ```
