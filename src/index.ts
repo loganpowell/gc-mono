@@ -66,6 +66,15 @@ app.get('/v1/session', async c => {
   return new Response('unauthorized', {status: 401});
 });
 
+app.get('/v1/logout', async c => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Clear-Site-Data': "\"cookies\""
+    }
+  });
+});
+
 const currentUID = async context => {
   return parse(context.req.raw.headers.get('cookie') || '')['gcre_session'];
 }
