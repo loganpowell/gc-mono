@@ -11,18 +11,22 @@ mode = "smart"
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
-
 [env.staging]
 name = "api"
 d1_databases = [
   { binding = "DB", database_name = "gaza-care-staging", database_id = "fd67f652-fe9c-4465-8eeb-8c1e6c70ab94" }
 ]
 
+r2_buckets = [
+  { binding = "R2", bucket_name = "gaza-care" }
+]
+
 [env.production]
 name = "api"
 d1_databases = [
   { binding = "DB", database_name = "gaza-care-production", database_id = "9a5db72f-50cf-4b31-886e-f5064610194c"}
+]
+
+r2_buckets = [
+  { binding = "R2", bucket_name = "gaza-care" }
 ]

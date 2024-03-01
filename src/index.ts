@@ -6,7 +6,7 @@ import { eq, and } from 'drizzle-orm';
 import * as jose from 'jose';
 
 import * as schema from '../db/schema';
-import { User, UserIdentity, AuthProvider } from './models';
+import { User, UserIdentity, AuthProvider, Video } from './models';
 
 const app = new Hono()
 
@@ -28,6 +28,10 @@ app.use('*', async (context, next) => {
   context.set('db', db);
   await next();
 });
+
+const authenticate = async c => {
+  return await currentUser(c);
+};
 
 app.post('/v1/auth/google/success', async c => {
   let authProvider = await AuthProvider(c.var.db).create({name: 'google'});
@@ -64,6 +68,35 @@ app.get('/v1/session', async c => {
   }
 
   return new Response('unauthorized', {status: 401});
+});
+
+app.post('/v1/videos', async c => {
+  const user = await authenticate(c);
+
+  const formData = await c.req.raw.formData();
+  const file = formData.get('file');
+  const metadata = JSON.parse(await formData.get('metadata'));
+
+  const fileData = await file.arrayBuffer();
+  const digest = await crypto.subtle.digest('MD5', fileData);
+  const bytes = Array.from(new Uint8Array(digest));
+  const md5 = bytes.map(b => b.toString(16).padStart(2, '0')).join('');
+
+  await c.env.R2.put(file.name, fileData);
+
+  const video = await Video(c.var.db).create({
+    uploaderID: user.id,
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.keywords,
+    filename: file.name,
+    filetype: file.type,
+    filesize: file.size,
+    md5Hash: md5,
+    metadata: JSON.stringify(metadata),
+  }) || await Video(c.var.db).getByMD5Hash(md5);
+
+  return new Response(JSON.stringify({...video}), {status: 200});
 });
 
 app.get('/v1/logout', async c => {
