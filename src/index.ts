@@ -11,7 +11,7 @@ import { User, UserIdentity, AuthProvider, Video } from './models';
 const app = new Hono()
 
 app.use('*', cors({
-  origin: ['http://localhost:8788', 'https://medic.gaza-care.com'],
+  origin: ['http://localhost:8788', 'https://medic.gaza-care.com', 'http://localhost:8789', 'https://admin.gaza-care.com'],
   allowHeaders: ['Content-Type', 'Authorization'],
   allowMethods: ['POST', 'GET', 'OPTIONS'],
   exposeHeaders: ['Content-Length'],
