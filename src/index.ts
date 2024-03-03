@@ -34,13 +34,14 @@ const authenticate = async c => {
 };
 
 app.post('/v1/auth/google/success', async c => {
+  const { creds, userType } = await c.req.raw.json();
+  const credentials = jose.decodeJwt(creds);
+
   let authProvider = await AuthProvider(c.var.db).create({name: 'google'});
   authProvider ||= await AuthProvider(c.var.db).withName({name: 'google'});
   let user = await currentUser(c);
 
   if (!user) {
-    const { creds, userType } = await c.req.raw.json();
-    const credentials = jose.decodeJwt(creds);
     const uid = crypto.randomUUID();
     const username = `goog-${credentials.sub}`;
     user = await User(c.var.db).create({username, uid, userType});
@@ -53,7 +54,7 @@ app.post('/v1/auth/google/success', async c => {
   }
 
   return new Response(
-    JSON.stringify(user),
+    JSON.stringify({...user, ...credentials}),
     {
       headers: {'Set-Cookie': `gcre_session=${user.uid};Path=/;SameSite=Strict;Secure;HttpOnly`}
     }
