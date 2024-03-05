@@ -5,6 +5,8 @@ import { reducer, initialState } from '@reducer';
 
 import { authenticate, logout } from '@actions';
 
+import './styles.css';
+
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
