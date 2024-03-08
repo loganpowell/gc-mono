@@ -88,6 +88,7 @@ app.post("/v1/videos", async (c) => {
   const formData = await c.req.raw.formData();
   const file = formData.get("file");
   const metadata = JSON.parse(await formData.get("metadata"));
+  const language = metadata.language.split('-')[0];
 
   const fileData = await file.arrayBuffer();
   const digest = await crypto.subtle.digest("MD5", fileData);
@@ -99,6 +100,7 @@ app.post("/v1/videos", async (c) => {
   const video =
     (await Video(c.var.db).create({
       uploaderID: user.id,
+      language,
       title: metadata.title,
       description: metadata.description,
       keywords: metadata.keywords,
@@ -106,10 +108,18 @@ app.post("/v1/videos", async (c) => {
       filetype: file.type,
       filesize: file.size,
       md5Hash: md5,
-      metadata: JSON.stringify(metadata),
+      metadata: metadata,
     })) || (await Video(c.var.db).getByMD5Hash(md5));
 
   return new Response(JSON.stringify({ ...video }), { status: 200 });
+});
+
+app.get("/v1/search", async (c) => {
+  const { q, lang } = c.req.query();
+
+  const matchingVideos = await Video(c.var.db).search({keywords: q, language: lang});
+
+  return new Response(JSON.stringify(matchingVideos));
 });
 
 app.get("/v1/logout", async (c) => {

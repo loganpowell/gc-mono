@@ -16,6 +16,15 @@ support videos.
 
 - Serve short video content -> Need storage like s3 (cloudflare R2)
 
+- user needs to be able to search through the videos
+  - we need to do locale detection
+
+  - look at youtube for design reference
+
+  - language detection
+
+  - needs to be in arabic
+
 *** Admin side (admin.gaza-care.com)
 
 - have a UI to be able to approve videos
@@ -33,7 +42,24 @@ support videos.
 
 - log location
 
+- see video / content status
+
+- add some more fields.
+  - qualifications, contact information ()
+  - give us permission to contact you
+  - ethical aspect
+
+- allow admin to enter translations for uploaded forms
+
+
+- allow yasi to be logged in as admin and medic
+
 *** Schema
+
+**** Translations
+
+| id | translatable_id | translatable_type | translatable_field | language | text |
+|    |                 |                   |                    |          |      |
 
 **** Tutorials
 

@@ -13,23 +13,35 @@ const timeStamps = {
 export const videos = sqliteTable('videos', {
   ...autoIncrementID,
   uploaderID: integer('uploader_id').references(() => users.id).notNull(),
-  title: text('title').notNull(),
-  description: text('description').notNull(),
-  keywords: text('keywords'),
   filename: text('filename').notNull(),
   filetype: text('filetype').notNull(),
   filesize: text('filesize').notNull(),
   md5Hash: text('md5_hash').notNull().unique(),
   contentText: text('content_text'),
+  language: text('language'),
   metadata: text('metadata'),
   status: text('status').notNull().default('pending'),
   ...timeStamps
 }, t => ({
+  contentTextIdx: index('contentTextIdx').on(t.contentText)
+}));
+
+export const translations = sqliteTable('translations', {
+  translatableID: integer('translatable_id').notNull(),
+  translatableType: text('translatable_type').notNull(),
+  translatableField: text('translatableField').notNull(),
+  language: text('language').notNull(),
+  text: text('text').notNull(),
+  ...timeStamps
+}, t => ({
+  pk: primaryKey({columns: [t.translatableID, t.translatableType, t.translatableField, t.language]}),
+  textIdx: index('text_idx').on(t.text),
 }));
 
 export const views = sqliteTable('views', {
   ...autoIncrementID,
   viewableID: integer('viewable_id').notNull(),
+  viewableType: text('viewable_type').notNull(),
   viewerIP: text('viewer_ip').notNull(),
   geolocationData: text('geolocation_data'),
   ...timeStamps
