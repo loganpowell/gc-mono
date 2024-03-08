@@ -1,3 +1,8 @@
 .Home .metadata {
   margin-top: 10px;
 }
+
+.Home .actions {
+  display: flex;
+  justify-content: space-between;
+}

@@ -7,7 +7,13 @@ const reducer = (state, action) => {
     case 'RECEIVED_AUTH': {
       return {
         ...state,
-        user: {...action.data},
+        ...{
+          user: {
+            ...action.data.users,
+            ...action.data.user_identities,
+            profile: JSON.parse(action.data.user_identities.profile)
+          }
+        }
       };
     }
     case 'RECEIVED_LOGOUT': {
