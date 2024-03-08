@@ -4,7 +4,19 @@ import { users, authProviders, userIdentities, translations, videos } from "../.
 
 export const User = (db) => ({
   withUID: async (uid) =>
-    (await db.select().from(users).where(eq(users.uid, uid)).limit(1))[0],
+    (await db
+      .select()
+      .from(users)
+      .innerJoin(
+        userIdentities,
+        eq(
+          users.id,
+          userIdentities.userID
+        )
+      )
+      .where(
+        eq(users.uid, uid)
+      ).limit(1))[0],
   withUsername: async (username) =>
     (
       await db.select().from(users).where(eq(users.username, username)).limit(1)
