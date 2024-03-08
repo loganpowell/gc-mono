@@ -3,8 +3,8 @@ import { and, eq, inArray, like } from "drizzle-orm";
 import { users, authProviders, userIdentities, translations, videos } from "../../db/schema";
 
 export const User = (db) => ({
-  withUID: async (uid) =>
-    (await db
+  withUID: async (uid) => {
+    const result = (await db
       .select()
       .from(users)
       .innerJoin(
@@ -16,7 +16,10 @@ export const User = (db) => ({
       )
       .where(
         eq(users.uid, uid)
-      ).limit(1))[0],
+      ).limit(1))[0];
+
+    return {...result.users, ...result.user_identities};
+  },
   withUsername: async (username) =>
     (
       await db.select().from(users).where(eq(users.username, username)).limit(1)

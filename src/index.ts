@@ -114,6 +114,14 @@ app.post("/v1/videos", async (c) => {
   return new Response(JSON.stringify({ ...video }), { status: 200 });
 });
 
+app.get("/v1/videos", async (c) => {
+  const { uid } = c.req.query();
+
+  const matchingVideos = await Video(c.var.db).search({keywords: q, language: lang});
+
+  return new Response(JSON.stringify(matchingVideos));
+});
+
 app.get("/v1/search", async (c) => {
   const { q, lang } = c.req.query();
 
