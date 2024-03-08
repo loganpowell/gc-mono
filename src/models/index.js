@@ -111,6 +111,8 @@ export const Video = (db) => ({
     },
   getByMD5Hash: async (md5) =>
     await db.select().from(videos).where(eq(videos.md5Hash, md5)),
+  getByUploader: async uploaderID =>
+    await db.select().from(videos).where(eq(videos.uploaderID, uploaderID)),
   search: async ({keywords, language}) => {
     const results = await db
       .select()

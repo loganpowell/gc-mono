@@ -115,9 +115,8 @@ app.post("/v1/videos", async (c) => {
 });
 
 app.get("/v1/videos", async (c) => {
-  const { uid } = c.req.query();
-
-  const matchingVideos = await Video(c.var.db).search({keywords: q, language: lang});
+  const user = await currentUser(c);
+  const matchingVideos = await Video(c.var.db).getByUploader(user.id);
 
   return new Response(JSON.stringify(matchingVideos));
 });
