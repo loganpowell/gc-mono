@@ -20,7 +20,11 @@ const App = () => {
   return (
     <div className="App">
       {
-        state.user.uid && <div className="logout-button" onClick={() => logout(dispatch, navigate) }><button className="button">Logout</button></div>
+        state.user.uid && <div className="logout-button" onClick={() => logout(dispatch, navigate) }>
+          <figure className="image is-48x48">
+            <img className="is-rounded" src={state.user?.profile?.picture} />
+          </figure>
+        </div>
       }
       <Outlet context={{state, dispatch}} />
     </div>

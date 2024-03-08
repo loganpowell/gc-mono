@@ -1,5 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
+
+import { getVideos } from '@actions';
 
 import './styles.css';
 
@@ -9,6 +11,29 @@ const Home = () => {
   const [uploadStatus, setUploadStatus] = useState(null);
   const { state, dispatch } = useOutletContext();
   const fileInputRef = useRef(null);
+  const [uploads, setUploads] = useState({});
+
+  useEffect(() => {
+    let ignore = false;
+
+    const setVids = async () => {
+      const json = await getVideos(dispatch);
+      const grouped = json.reduce((r, v) => {
+        r[v.status] ||= [];
+        r[v.status].push(v);
+
+        return r;
+      }, {});
+
+      if (!ignore) setUploads(grouped);
+    }
+
+    setVids();
+
+    return () => {
+      ignore = true;
+    };
+  }, [uploads.length]);
 
   return (
     <div className="Home">
@@ -17,16 +42,16 @@ const Home = () => {
       }
       <h1 className="title block">Hello {`${state.user?.profile?.name}`}</h1>
       <h2 className="subtitle block">Upload Content</h2>
-      <div class="file has-name is-boxed">
-        <label class="file-label">
-          <input class="file-input" type="file" files={[file]} ref={fileInputRef} onChange={e => {
+      <div className="file has-name is-boxed">
+        <label className="file-label">
+          <input className="file-input" type="file" files={[file]} ref={fileInputRef} onChange={e => {
             setFile(e.target.files[0])
           }} />
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
+            <span className="file-cta">
+              <span className="file-icon">
+                <i className="fas fa-upload"></i>
               </span>
-              <span class="file-label">
+              <span className="file-label">
                 Choose a file…
               </span>
             </span>
@@ -85,6 +110,38 @@ const Home = () => {
          </div>
        </div>
       }
+      <h2 className="subtitle block uploads">Your uploads</h2>
+      <div className="card">
+        <div className="card-content">
+          <h2 class="title">Approved Content</h2>
+          {!uploads.approved?.length ? <div className="no-videos">No approved videos</div>
+          : uploads.approved?.map((u, index) => {
+            const metadata = JSON.parse(u.metadata);
+
+            return (
+              <div key={index} className="UploadedVideo">
+                <div className="subtitle">{metadata.title}</div>
+                <div className="video"><video src={`https://gaza-care.com/${u.filename}`} controls /></div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="card pending">
+        <div className="card-content">
+          <h2 class="title">Pending Approval</h2>
+          {uploads.pending?.map((u, index) => {
+            const metadata = JSON.parse(u.metadata);
+
+            return (
+              <div key={index} className="UploadedVideo">
+                <div className="subtitle">{metadata.title}</div>
+                <div className="video"><video src={`https://gaza-care.com/${u.filename}`} controls /></div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,9 @@
 .App {
   padding: 10px;
 }
+
+.App figure {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+}

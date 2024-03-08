@@ -9,9 +9,8 @@ const reducer = (state, action) => {
         ...state,
         ...{
           user: {
-            ...action.data.users,
-            ...action.data.user_identities,
-            profile: JSON.parse(action.data.user_identities.profile)
+            ...action.data,
+            profile: JSON.parse(action.data.profile)
           }
         }
       };

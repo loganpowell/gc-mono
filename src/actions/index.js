@@ -21,6 +21,19 @@ const authenticate = (dispatch, navigate, redirectUrl) => {
     });
 };
 
+const getVideos = dispatch => {
+  dispatch({type: 'REQUESTING_VIDEOS'});
+
+  return fetch(`${BASE_URI}/v1/videos`, {
+    method: 'GET',
+    credentials: 'include',
+  }).then(async response => await response.json())
+    .then(json => {
+      dispatch({type: 'RECEIVED_VIDEOS', data: json})
+      return json;
+    });
+};
+
 const logout = (dispatch, navigate) => {
   dispatch({type: 'REQUESTING_LOGOUT'});
 
@@ -33,4 +46,4 @@ const logout = (dispatch, navigate) => {
   });
 };
 
-export { authenticate, logout };
+export { authenticate, logout, getVideos };
