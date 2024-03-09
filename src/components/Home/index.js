@@ -130,7 +130,7 @@ const Home = () => {
       <div className="card pending">
         <div className="card-content">
           <h2 class="title">Pending Approval</h2>
-          {uploads.pending?.map((u, index) => {
+          {!uploads.pending?.length ? <div className="no-videos">No pending videos</div> : uploads.pending?.map((u, index) => {
             const metadata = JSON.parse(u.metadata);
 
             return (
