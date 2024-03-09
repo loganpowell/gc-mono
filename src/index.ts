@@ -65,7 +65,7 @@ app.post("/v1/auth/google/success", async (c) => {
     }
   }
 
-  return new Response(JSON.stringify({ ...user, ...credentials }), {
+  return new Response(JSON.stringify({ ...user, profile: JSON.stringify({...credentials}) }), {
     headers: {
       "Set-Cookie": `gcre_session=${user.uid};Path=/;SameSite=Strict;Secure;HttpOnly`,
     },

@@ -18,7 +18,10 @@ export const User = (db) => ({
         eq(users.uid, uid)
       ).limit(1))[0];
 
-    return {...result.users, ...result.user_identities};
+    if (result && result.users && result.user_identities)
+      return {...result.users, ...result.user_identities};
+
+    return null;
   },
   withUsername: async (username) =>
     (
