@@ -9,22 +9,18 @@ import { User, UserIdentity, AuthProvider, Video } from "./models";
 
 const app = new Hono();
 
-app.use(
-  "*",
-  cors({
-    origin: [
-      "http://localhost:8788",
-      "https://medic.gaza-care.com",
-      "http://localhost:8789",
-      "https://admin.gaza-care.com",
-    ],
+app.use('*', async (c, next) => {
+  const corsMiddleware = cors({
+    origin: c.env.ALLOWED_ORIGINS.split(','),
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,
-  }),
-);
+  });
+
+  await corsMiddleware(c, next);
+});
 
 app.options("*", (c) => {
   return new Response(null, { status: 204 });

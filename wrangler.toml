@@ -21,6 +21,9 @@ r2_buckets = [
   { binding = "R2", bucket_name = "gaza-care" }
 ]
 
+[env.staging.vars]
+ALLOWED_ORIGINS = "http://localhost:8788, http://localhost:8789"
+
 [env.production]
 name = "api"
 d1_databases = [
@@ -30,3 +33,6 @@ d1_databases = [
 r2_buckets = [
   { binding = "R2", bucket_name = "gaza-care" }
 ]
+
+[env.production.vars]
+ALLOWED_ORIGINS = "https://medic.gaza-care.com, https://admin.gaza-care.com"
