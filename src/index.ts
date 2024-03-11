@@ -11,7 +11,7 @@ const app = new Hono();
 
 app.use('*', async (c, next) => {
   const corsMiddleware = cors({
-    origin: c.env.ALLOWED_ORIGINS.split(','),
+    origin: origin => c.env.ALLOWED_ORIGINS.split(',').includes(origin) || origin.endsWith('medic-eev.pages.dev') || origin.endsWith('admin-93h.pages.dev') ? origin : 'https://gaza-care.com',
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length"],
@@ -19,7 +19,7 @@ app.use('*', async (c, next) => {
     credentials: true,
   });
 
-  await corsMiddleware(c, next);
+  return await corsMiddleware(c, next);
 });
 
 app.options("*", (c) => {
@@ -123,6 +123,19 @@ app.get("/v1/search", async (c) => {
   const matchingVideos = await Video(c.var.db).search({keywords: q, language: lang});
 
   return new Response(JSON.stringify(matchingVideos));
+});
+
+app.get("/v1/stream/:filename", async (c) => {
+  const filename = c.req.param('filename');
+  const file = await c.env.R2.get(filename);
+
+  if (!file) return new Response('not found', {status: 404});
+
+  let { readable, writable } = new TransformStream();
+
+  file.body.pipeTo(writable);
+
+  return new Response(readable, writable);
 });
 
 app.get("/v1/logout", async (c) => {
