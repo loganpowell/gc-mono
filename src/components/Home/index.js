@@ -121,7 +121,7 @@ const Home = () => {
             return (
               <div key={index} className="UploadedVideo">
                 <div className="subtitle">{metadata.title}</div>
-                <div className="video"><video src={`https://gaza-care.com/${u.filename}`} controls /></div>
+                <div className="video"><video src={`${process.env.API_URI}/v1/stream/${u.filename}`} controls /></div>
               </div>
             );
           })}
@@ -136,7 +136,7 @@ const Home = () => {
             return (
               <div key={index} className="UploadedVideo">
                 <div className="subtitle">{metadata.title}</div>
-                <div className="video"><video src={`https://gaza-care.com/${u.filename}`} controls /></div>
+                <div className="video"><video src={`${process.env.API_URI}/v1/stream/${u.filename}`} controls /></div>
               </div>
             );
           })}
