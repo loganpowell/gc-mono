@@ -19,6 +19,12 @@ command.
 npx yarn install
 ```
 
+-- Start local build and watch for changes
+
+```
+npx yarn build:dev --watch
+```
+
 - Start
 
 ```
