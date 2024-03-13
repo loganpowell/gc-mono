@@ -34,6 +34,64 @@ const getVideos = dispatch => {
     });
 };
 
+const uploadVideo = (dispatch, {file, metadata, language}) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('metadata', JSON.stringify({...metadata, language}));
+
+  dispatch({type: 'REQUESTING_UPLOAD_VIDEO'});
+
+  fetch(
+    `${BASE_URI}/v1/videos`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      body: formData
+    }
+  ).then(async response => {
+    if (response.ok) {
+      const video = await response.json();
+      dispatch({type: 'UPLOAD_VIDEO_SUCCESS', data: {
+        flashMessage: {
+          type: 'success',
+          header: 'Success',
+          body: 'Your file was successfully uploaded',
+          flashDuration: 5000
+        },
+        video,
+      }});
+    }
+    else {
+      const error = await response.json();
+      dispatch({type: 'UPLOAD_VIDEO_FAILURE', data: {
+        flassMessage: {
+          type: 'failure',
+          header: 'Upload Failed',
+          body: `There was an error: ${error}`,
+          flashDuration: 5000
+        },
+      }});
+    }
+  })
+};
+
+const deleteVideo = (dispatch, id) => {
+  dispatch({type: 'REQUESTING_DELETE_VIDEO'});
+
+  return fetch(`${BASE_URI}/v1/videos/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  }).then(async response => {
+    if (response.ok) {
+      dispatch({type: 'RECEIVED_DELETE_VIDEO', data: {id}});
+    }
+    else {
+      const error = await response.json();
+      dispatch({type: 'DELETE_VIDEO_FAILED', data: {error}});
+    }
+  });
+};
+
 const logout = (dispatch, navigate) => {
   dispatch({type: 'REQUESTING_LOGOUT'});
 
@@ -46,4 +104,4 @@ const logout = (dispatch, navigate) => {
   });
 };
 
-export { authenticate, logout, getVideos };
+export { authenticate, logout, getVideos, uploadVideo, deleteVideo };

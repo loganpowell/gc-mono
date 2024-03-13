@@ -1,44 +1,49 @@
 import { useState, useRef, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
-import { getVideos } from '@actions';
+import { getVideos, uploadVideo, deleteVideo } from '@actions';
 
 import './styles.css';
+
+import FlashMessage from '@components/FlashMessage';
 
 const Home = () => {
   const [file, setFile] = useState(null);
   const [metadata, setMetadata] = useState({});
-  const [uploadStatus, setUploadStatus] = useState(null);
   const { state, dispatch } = useOutletContext();
   const fileInputRef = useRef(null);
-  const [uploads, setUploads] = useState({});
+
+  const clearForm = () => {
+    fileInputRef.current.value = null;
+    setFile(null);
+    setMetadata({});
+  };
 
   useEffect(() => {
-    let ignore = false;
+    getVideos(dispatch);
+  }, []);
 
-    const setVids = async () => {
-      const json = await getVideos(dispatch);
-      const grouped = json.reduce((r, v) => {
-        r[v.status] ||= [];
-        r[v.status].push(v);
+  useEffect(() => {
+    if (Object.keys(state.flashMessage).length < 1)  return;
 
-        return r;
-      }, {});
+    const timeout = setTimeout(() => {
+      dispatch({type: 'CLEAR_FLASH_MESSAGE'});
+    }, state.flashMessage.flashDuration);
 
-      if (!ignore) setUploads(grouped);
-    }
-
-    setVids();
-
-    return () => {
-      ignore = true;
+    return timeout => {
+      clearTimeout(timeout);
     };
-  }, [uploads.length]);
+  }, [state.flashMessage]);
+
+  if (state.uploadingVideo) return (
+    <span className="bulma-loader-mixin"></span>
+  );
 
   return (
     <div className="Home">
-      { uploadStatus === 'success' &&
-        <div className="upload-status">Uploaded successfully!</div>
+      {
+        Object.keys(state.flashMessage).length > 0 &&
+        <FlashMessage {...state.flashMessage} />
       }
       <h1 className="title block">Hello {`${state.user?.profile?.name}`}</h1>
       <h2 className="subtitle block">Upload Content</h2>
@@ -47,18 +52,18 @@ const Home = () => {
           <input className="file-input" type="file" files={[file]} ref={fileInputRef} onChange={e => {
             setFile(e.target.files[0])
           }} />
-            <span className="file-cta">
-              <span className="file-icon">
-                <i className="fas fa-upload"></i>
-              </span>
-              <span className="file-label">
-                Choose a file…
-              </span>
+          <span className="file-cta">
+            <span className="file-icon">
+              <i className="fas fa-upload"></i>
             </span>
-            {
-              file &&
-              <span className="file-name">{file.name}</span>
-            }
+            <span className="file-label">
+              Choose a file…
+            </span>
+          </span>
+          {
+            file &&
+            <span className="file-name">{file.name}</span>
+          }
         </label>
       </div>
       {file &&
@@ -80,42 +85,22 @@ const Home = () => {
          </div>
          <div className="actions">
            <button className="button is-link" onClick={() => {
-             const formData = new FormData();
-             formData.append('file', file);
-             formData.append('metadata', JSON.stringify({...metadata, language: window.navigator.language}));
-
-             fetch(
-               `${process.env.API_URI}/v1/videos`,
-               {
-                 method: 'POST',
-                 credentials: 'include',
-                 body: formData
-               }
-             ).then(async response => {
-               if (response.ok) {
-                 setUploadStatus('success');
-                 return await response.json();
-               }
-
-               else {
-                 setUploadStatus('failure');
-               }
-             })
+             uploadVideo(dispatch, {file, metadata, language: window.navigator.language});
+             clearForm();
            }}>Upload</button>
            <button className="button" onClick={() => {
-             setFile(null);
-             fileInputRef.current.value = null
-           }
-           }>Cancel</button>
+             clearForm();
+           }}>Cancel
+           </button>
          </div>
        </div>
       }
       <h2 className="subtitle block uploads">Your uploads</h2>
       <div className="card">
         <div className="card-content">
-          <h2 class="title">Approved Content</h2>
-          {!uploads.approved?.length ? <div className="no-videos">No approved videos</div>
-          : uploads.approved?.map((u, index) => {
+          <h2 className="title">Approved Content</h2>
+          {!state.uploads?.approved?.length ? <div className="no-videos">No approved videos</div>
+          : state?.uploads.approved?.map((u, index) => {
             const metadata = JSON.parse(u.metadata);
 
             return (
@@ -129,13 +114,16 @@ const Home = () => {
       </div>
       <div className="card pending">
         <div className="card-content">
-          <h2 class="title">Pending Approval</h2>
-          {!uploads.pending?.length ? <div className="no-videos">No pending videos</div> : uploads.pending?.map((u, index) => {
+          <h2 className="title">Pending Approval</h2>
+          {!state.uploads?.pending?.length ? <div className="no-videos">No pending videos</div> : state.uploads?.pending?.map((u, index) => {
             const metadata = JSON.parse(u.metadata);
 
             return (
               <div key={index} className="UploadedVideo">
-                <div className="subtitle">{metadata.title}</div>
+                <div className="flex-container">
+                  <div className="subtitle">{metadata.title}</div>
+                  <div className="delete-button"><button className="delete is-large" onClick={() => deleteVideo(dispatch, u.id) }></button></div>
+                </div>
                 <div className="video"><video src={`${process.env.API_URI}/v1/stream/${u.filename}`} controls /></div>
               </div>
             );
