@@ -112,6 +112,9 @@ export const Video = (db) => ({
 
       return video;
     },
+  delete: async (id) => {
+    return await db.delete(videos).where(eq(videos.id, id)).returning();
+  },
   getByMD5Hash: async (md5) =>
     await db.select().from(videos).where(eq(videos.md5Hash, md5)),
   getByUploader: async uploaderID =>

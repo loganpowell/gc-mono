@@ -13,7 +13,7 @@ app.use('*', async (c, next) => {
   const corsMiddleware = cors({
     origin: origin => c.env.ALLOWED_ORIGINS.split(',').includes(origin) || origin.endsWith('medic-eev.pages.dev') || origin.endsWith('admin-93h.pages.dev') ? origin : 'https://gaza-care.com',
     allowHeaders: ["Content-Type", "Authorization"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
+    allowMethods: ["POST", "GET", "OPTIONS", "DELETE"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,
@@ -137,6 +137,16 @@ app.get("/v1/stream/:filename", async (c) => {
 
   return new Response(readable, writable);
 });
+
+
+app.delete("/v1/videos/:id", async c => {
+  const id = c.req.param('id');
+  const deleted = await Video(c.var.db).delete(id);
+  await c.env.R2.delete(deleted.filename);
+
+  return new Response(null, {status: 204});
+});
+
 
 app.get("/v1/logout", async (c) => {
   return new Response(null, {
