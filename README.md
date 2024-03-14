@@ -5,7 +5,7 @@ and then start the local development server:
 
 ## Install dependencies
 ```
-npm install
+npx yarn install
 ```
 
 ## Create database schema locally
@@ -34,7 +34,7 @@ npx wrangler d1 execute gaza-care-staging  --file=drizzle/0003_old_boomer.sql -e
 
 ## Start the development server
 ```
-npm run dev
+npx yarn run dev
 ```
 
 The server is now running and ready to accept requests on the given
@@ -49,6 +49,7 @@ port number.
 
 - Push your branch and create a pull request
 
+<<<<<<< HEAD
 - Once approved, try to merge your PR as soon as possible
 
 ### Commit Messages
@@ -151,6 +152,6 @@ re-run all migration files.
 
 # Deploying to production
 ```
-npm run deploy
+npx yarn deploy
 ```
 
