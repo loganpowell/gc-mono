@@ -1,9 +1,10 @@
 import './styles.css';
 import './styles-large.css';
+import { injectIntl } from 'react-intl';
 
 import Logo from '@assets/images/logo.png';
 
-const App = () => {
+const App = ({intl}) => {
   return (
     <div className="App">
       <div className="logo">
@@ -11,7 +12,7 @@ const App = () => {
       </div>
       <div className="field">
         <div className="control">
-          <input className="input" type="text" placeholder="search" />
+          <input className="input" type="text" placeholder={intl.formatMessage({id: "search"})} />
         </div>  
       </div>
       <div className="videos">
@@ -21,4 +22,4 @@ const App = () => {
   )
 };
 
-export default App;
+export default injectIntl(App);
