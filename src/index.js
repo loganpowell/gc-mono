@@ -1,6 +1,24 @@
+import { H } from 'highlight.run';
+
+H.init('6gl9vozg', {
+	serviceName: "gaza-care-app",
+	tracingOrigins: true,
+	networkRecording: {
+		enabled: true,
+		recordHeadersAndBody: true,
+		urlBlocklist: [
+			// insert full or partial urls that you don't want to record here
+			// Out of the box, Highlight will not record these URLs (they can be safely removed):
+			"https://www.googleapis.com/identitytoolkit",
+			"https://securetoken.googleapis.com",
+		],
+	},
+});
+
 import React, { useReducer, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ErrorBoundary } from '@highlight-run/react';
 
 import { routes } from './routes';
 import Arabic from './lang/ar.json';
@@ -26,8 +44,10 @@ const router = createBrowserRouter([routes]);
 
 root.render(
   <React.StrictMode>
-    <IntlProvider locale ={locale} messages={lang}>
-      <RouterProvider router={router} />
-    </IntlProvider>
+    <ErrorBoundary>
+      <IntlProvider locale ={locale} messages={lang}>
+        <RouterProvider router={router} />
+      </IntlProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
