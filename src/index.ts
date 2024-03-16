@@ -17,7 +17,7 @@ app.use('*', async (c, next) => {
       origin.endsWith('admin-93h.pages.dev')
         ? origin
         : 'https://gaza-care.com',
-    allowHeaders: ['Content-Type', 'Authorization'],
+    allowHeaders: ['Content-Type', 'Authorization', 'x-highlight-request'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
     exposeHeaders: ['Content-Length'],
     maxAge: 600,
@@ -109,7 +109,7 @@ app.post('/v1/videos', async (c) => {
       filetype: file.type,
       filesize: file.size,
       md5Hash: md5,
-      metadata: metadata,
+      metadata,
     })) || (await Video(c.var.db).getByMD5Hash(md5));
 
   return new Response(JSON.stringify({ ...video }), { status: 200 });
@@ -160,19 +160,19 @@ app.get('/v1/stream/:filename', async (c) => {
 
   if (!file) return new Response('not found', { status: 404 });
 
-  let { readable, writable } = new TransformStream();
+  const { readable, writable } = new TransformStream();
 
   file.body.pipeTo(writable);
 
   return new Response(readable, writable);
 });
 
-app.delete("/v1/videos/:id", async c => {
+app.delete('/v1/videos/:id', async (c) => {
   const id = c.req.param('id');
   const deleted = await Video(c.var.db).delete(id);
   await c.env.R2.delete(deleted.filename);
 
-  return new Response(null, {status: 204});
+  return new Response(null, { status: 204 });
 });
 
 app.get('/v1/logout', async (c) => {

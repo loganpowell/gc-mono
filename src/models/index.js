@@ -13,7 +13,7 @@ export const User = (db) => ({
         .limit(1)
     )[0];
 
-    if (result && result.users && result.user_identities)
+    if (result?.users && result.user_identities)
       return { ...result.users, ...result.user_identities };
 
     return null;
