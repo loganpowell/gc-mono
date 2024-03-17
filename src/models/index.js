@@ -1,6 +1,12 @@
-import { and, eq, inArray, like } from 'drizzle-orm';
+import { and, eq, inArray, like } from "drizzle-orm";
 
-import { users, authProviders, userIdentities, translations, videos } from '../../db/schema';
+import {
+  users,
+  authProviders,
+  userIdentities,
+  translations,
+  videos,
+} from "../../db/schema";
 
 export const User = (db) => ({
   withUID: async (uid) => {
@@ -19,18 +25,36 @@ export const User = (db) => ({
     return null;
   },
   withUsername: async (username) =>
-    (await db.select().from(users).where(eq(users.username, username)).limit(1))[0],
+    (
+      await db.select().from(users).where(eq(users.username, username)).limit(1)
+    )[0],
   create: async ({ username, uid, userType }) =>
     (
-      await db.insert(users).values({ username, uid, userType }).onConflictDoNothing().returning()
+      await db
+        .insert(users)
+        .values({ username, uid, userType })
+        .onConflictDoNothing()
+        .returning()
     )[0],
 });
 
 export const AuthProvider = (db) => ({
   create: async ({ name }) =>
-    (await db.insert(authProviders).values({ name }).onConflictDoNothing().returning())[0],
+    (
+      await db
+        .insert(authProviders)
+        .values({ name })
+        .onConflictDoNothing()
+        .returning()
+    )[0],
   withName: async ({ name }) =>
-    (await db.select().from(authProviders).where(eq(authProviders.name, name)).limit(1))[0],
+    (
+      await db
+        .select()
+        .from(authProviders)
+        .where(eq(authProviders.name, name))
+        .limit(1)
+    )[0],
 });
 
 export const UserIdentity = (db) => ({
@@ -73,12 +97,12 @@ export const Video = (db) => ({
         .returning()
     )[0];
 
-    ['title', 'description', 'keywords'].forEach(async (attribute) => {
+    ["title", "description", "keywords"].forEach(async (attribute) => {
       const translation = await db
         .insert(translations)
         .values({
           translatableID: video.id,
-          translatableType: 'video',
+          translatableType: "video",
           translatableField: attribute,
           text: metadata[attribute],
           language,
@@ -91,10 +115,12 @@ export const Video = (db) => ({
   delete: async (id) => {
     return await db.delete(videos).where(eq(videos.id, id)).returning();
   },
-  getUnReviewed: async () => await db.select().from(videos).where(eq(videos.status, 'pending')),
+  getUnReviewed: async () =>
+    await db.select().from(videos).where(eq(videos.status, "pending")),
   setStatus: async ({ videoID, status }) =>
     await db.update(videos).set({ status }).where(eq(videos.id, videoID)),
-  getByMD5Hash: async (md5) => await db.select().from(videos).where(eq(videos.md5Hash, md5)),
+  getByMD5Hash: async (md5) =>
+    await db.select().from(videos).where(eq(videos.md5Hash, md5)),
   getByUploader: async (uploaderID) =>
     await db.select().from(videos).where(eq(videos.uploaderID, uploaderID)),
   search: async ({ keywords, language }) => {
@@ -105,17 +131,17 @@ export const Video = (db) => ({
         translations,
         and(
           eq(videos.id, translations.translatableID),
-          eq(translations.translatableType, 'video'),
+          eq(translations.translatableType, "video"),
           eq(translations.language, language),
         ),
       )
       .where(
         and(
           inArray(translations.translatableField, [
-            'title',
-            'description',
-            'keywords',
-            'content_text',
+            "title",
+            "description",
+            "keywords",
+            "content_text",
           ]),
           like(translations.text, `%${keywords}%`),
         ),
@@ -123,7 +149,7 @@ export const Video = (db) => ({
       .groupBy(videos.id);
 
     return results.reduce((r, result) => {
-      r.push({...result.videos, ...JSON.parse(result.videos.metadata)});
+      r.push({ ...result.videos, ...JSON.parse(result.videos.metadata) });
 
       return r;
     }, []);

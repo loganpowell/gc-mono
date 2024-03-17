@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint . --ext=.ts,.js",
+    "pretty": "prettier --write src && prettier --check src",
     "test": "jest",
     "prettier": "prettier src --write",
     "db:schema:generate": "drizzle-kit generate:sqlite --schema=db/schema.ts",
