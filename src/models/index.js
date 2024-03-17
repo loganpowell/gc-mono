@@ -113,6 +113,12 @@ export const Video = (db) => ({
     return video;
   },
   delete: async (id) => {
+    await db.delete(translations).where(
+      and(
+        eq(translations.translatableID, id),
+        eq(translations.translatableType, 'video')
+      )
+    )
     return await db.delete(videos).where(eq(videos.id, id)).returning();
   },
   getUnReviewed: async () =>
