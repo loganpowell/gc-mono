@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 const SearchResult = ({ sr }) => {
-  console.log("se!", sr);
   return (
     <div className="SearchResult">
       <div className="card">
