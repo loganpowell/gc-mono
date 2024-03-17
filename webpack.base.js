@@ -1,10 +1,7 @@
 const Dotenv = require("dotenv-webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-
-const deps = require("./package.json").dependencies;
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
@@ -17,6 +14,7 @@ module.exports = {
       "@utils": path.resolve(__dirname, "src/utils"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@icons": path.resolve(__dirname, "src/assets/icons"),
+      "@langs": path.resolve(__dirname, "src/lang"),
     },
     extensions: [".ts", ".tsx", "..."],
     plugins: [new TsconfigPathsPlugin({ extensions: [".ts", ".tsx", "..."] })],

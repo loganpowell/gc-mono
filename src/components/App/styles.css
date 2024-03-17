@@ -7,6 +7,6 @@
   margin: 0 auto;
 }
 
-.App input[type=text]::placeholder {
+.App input[type="text"]::placeholder {
   text-align: center;
 }

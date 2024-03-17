@@ -1,0 +1,7 @@
+# Ignore artifacts:
+node_modules
+dist
+coverage
+__mocks__
+README.md
+public/index.html

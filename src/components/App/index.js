@@ -1,10 +1,21 @@
-import './styles.css';
-import './styles-large.css';
-import { injectIntl } from 'react-intl';
+import "./styles.css";
+import "./styles-large.css";
 
-import Logo from '@assets/images/logo.png';
+import { useState, useReducer } from "react";
+import { injectIntl } from "react-intl";
+import PropTypes from "prop-types";
 
-const App = ({intl}) => {
+import { search } from "@actions";
+
+import SearchResult from "@components/SearchResult";
+import Logo from "@assets/images/logo.png";
+
+import { initialState, reducer } from "@reducer";
+
+const App = ({ intl }) => {
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <div className="App">
       <div className="logo">
@@ -12,14 +23,38 @@ const App = ({intl}) => {
       </div>
       <div className="field">
         <div className="control">
-          <input className="input" type="text" placeholder={intl.formatMessage({id: "search"})} />
-        </div>  
+          <input
+            className="input"
+            type="text"
+            placeholder={intl.formatMessage({ id: "search" })}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="field">
+        <div className="control">
+          <button
+            className="button is-primary"
+            onClick={async () => {
+              const language = navigator.language.split("-")[0];
+              search(dispatch, searchQuery, language);
+            }}
+          >
+            search
+          </button>
+        </div>
       </div>
       <div className="videos">
-        <video src="https://gaza-care.com/AR_UKR001_BURN_V4.03.mp4" controls />
+        {state.searchResults.map((sr, index) => (
+          <SearchResult key={index} sr={sr} />
+        ))}
       </div>
     </div>
-  )
+  );
 };
 
 export default injectIntl(App);
+
+App.propTypes = {
+  intl: PropTypes.object,
+};
