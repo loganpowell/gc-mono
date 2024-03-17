@@ -14,7 +14,8 @@ app.use('*', async (c, next) => {
     origin: (origin) =>
       c.env.ALLOWED_ORIGINS.split(', ').includes(origin) ||
       origin.endsWith('medic-eev.pages.dev') ||
-      origin.endsWith('admin-93h.pages.dev')
+                      origin.endsWith('admin-93h.pages.dev') ||
+               origin.endsWith('gaza-care.com')
         ? origin
         : 'https://gaza-care.com',
     allowHeaders: ['Content-Type', 'Authorization', 'x-highlight-request'],

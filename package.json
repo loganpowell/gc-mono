@@ -8,6 +8,11 @@
     "deploy": "npx wrangler deploy -e production --minify src/index.ts",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.ts": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  },
   "dependencies": {
     "cookie": "^0.6.0",
     "drizzle-orm": "^0.29.4",
