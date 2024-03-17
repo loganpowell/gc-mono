@@ -97,18 +97,18 @@ export const Video = (db) => ({
         .returning()
     )[0];
 
-    ["title", "description", "keywords"].forEach(async (attribute) => {
-      const translation = await db
+    for (let field of ["title", "description", "keywords"]) {
+      await db
         .insert(translations)
         .values({
-          translatableID: video.id,
+          translatableID: (await video).id,
           translatableType: "video",
-          translatableField: attribute,
-          text: metadata[attribute],
+          translatableField: field,
+          text: metadata[field],
           language,
         })
         .returning();
-    });
+    }
 
     return video;
   },
