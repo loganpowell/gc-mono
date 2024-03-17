@@ -35,4 +35,4 @@ r2_buckets = [
 ]
 
 [env.production.vars]
-ALLOWED_ORIGINS = "https://medic.gaza-care.com, https://admin.gaza-care.com"
+ALLOWED_ORIGINS = "https://medic.gaza-care.com, https://admin.gaza-care.com, https://app.gaza-care.com"

@@ -19,7 +19,7 @@ app.use("*", async (c, next) => {
         ? origin
         : "https://gaza-care.com",
     allowHeaders: ["Content-Type", "Authorization", "x-highlight-request"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
+    allowMethods: ["POST", "GET", "OPTIONS", "DELETE"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,

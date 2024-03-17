@@ -50,7 +50,7 @@ export const translations = sqliteTable(
   {
     translatableID: integer("translatable_id").notNull(),
     translatableType: text("translatable_type").notNull(),
-    translatableField: text("translatableField").notNull(),
+    translatableField: text("translatable_field").notNull(),
     language: text("language").notNull(),
     text: text("text").notNull(),
     ...timeStamps,
