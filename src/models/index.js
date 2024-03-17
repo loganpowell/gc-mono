@@ -122,6 +122,10 @@ export const Video = (db) => ({
       )
       .groupBy(videos.id);
 
-    return results;
+    return results.reduce((r, result) => {
+      r.push({...result.videos, ...JSON.parse(result.videos.metadata)});
+
+      return r;
+    }, []);
   },
 });
