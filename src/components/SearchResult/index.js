@@ -12,6 +12,7 @@ const SearchResult = ({ sr }) => {
             <video
               src={`${process.env.API_URI}/v1/stream/${sr.filename}`}
               controls
+              playsInline
             />
             <span>{sr.description}</span>
             <br />
