@@ -9,11 +9,10 @@ const SearchResult = ({ sr }) => {
         </div>
         <div className="card-content">
           <div className="content">
-            <video
-              src={`${process.env.API_URI}/v1/stream/${sr.filename}`}
-              controls
-              playsInline
-            />
+            <video controls playsInline>
+              <source src={`${process.env.API_URI}/v1/stream/${sr.filename}`} />
+              Your device does not support video playback
+            </video>
             <span>{sr.description}</span>
             <br />
           </div>
