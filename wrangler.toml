@@ -22,7 +22,7 @@ r2_buckets = [
 ]
 
 [env.staging.vars]
-ALLOWED_ORIGINS = "http://localhost:8788, http://localhost:8789, http://localhost:8080"
+ALLOWED_ORIGINS = "http://localhost:8787, http://localhost:8788, http://localhost:8789, http://localhost:8080, http://localhost:8090"
 
 [env.production]
 name = "api"
