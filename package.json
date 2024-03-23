@@ -10,7 +10,8 @@
     "test": "jest test",
     "build:dev": "env-cmd --no-override -f .dev.vars webpack --config webpack.dev.js",
     "build:production": "webpack --config webpack.production.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev": "echo 'hello app'"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
