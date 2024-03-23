@@ -1,2 +1,3 @@
-GOOGLE_API_CLIENT_ID=<variable-name>
-API_URI=http://localhost:8787
+GOOGLE_API_CLIENT_ID=<secret>.apps.googleusercontent.com
+
+API_URI=http://localhost:8080
