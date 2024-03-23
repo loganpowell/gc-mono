@@ -160,27 +160,40 @@ app.get("/v1/search", async (c) => {
 
 app.get("/v1/stream/:filename", async (c) => {
   const filename = c.req.param("filename");
-  const [, range] = c.req.header('range').split('=');
-  const [start, end] = range ? range.split('-') : [];
+  const [, range] = c.req.header("range").split("=");
+  const [start, end] = range ? range.split("-") : [];
 
-  const file = await c.env.R2.get(filename, {range: {offset: start, length: (end - start + 1)}});
+  let file = await c.env.R2.get(filename);
   if (!file) return new Response("not found", { status: 404 });
+
+  if (start && !end)
+    file = await c.env.R2.get(filename, {
+      range: { offset: start, length: file.size - 1 },
+    });
+
+  if (start && end)
+    file = await c.env.R2.get(filename, {
+      range: { offset: start, length: end - start + 1 },
+    });
 
   const headers = new Headers();
   file.writeHttpMetadata(headers);
-  headers.set('etag', file.httpEtag);
+  headers.set("etag", file.httpEtag);
 
   if (file.range) {
-    headers.set('content-range', `bytes ${file.range.offset}-${file.range.end ?? file.size -1}/${file.size}`);
+    headers.set(
+      "content-range",
+      `bytes ${file.range.offset}-${file.range.end ?? file.size - 1}/${file.size}`,
+    );
   }
 
-  const status = file.body ? (c.req.header('range') !== null ? 206 : 200) : 304;
+  const status = file.body ? (c.req.header("range") !== null ? 206 : 200) : 304;
 
   const { readable, writable } = new TransformStream();
 
   file.body.pipeTo(writable);
 
-  return new Response(readable, {headers, status});
+  return new Response(readable, { headers, status });
 });
 
 app.delete("/v1/videos/:id", async (c) => {
