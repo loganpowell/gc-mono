@@ -1,4 +1,4 @@
-# `turbosub` Turborepo + git-subrepo + Vite template
+# Turborepo + Vite + git-subrepo
 
 # Instructions
 
@@ -79,32 +79,7 @@ source /path/to/git-subrepo/.rc
 ```
 That will modify your PATH and MANPATH, and also enable command completion.
 
-#### Initialize the subrepos
 
-Turn an existing subdirectory into a subrepo.
-Format:
-```sh
-git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|rebase>]
-```
-
-
-> *You can change this configuration any time with the `config` command.*
-> ```sh
-> git subrepo config <subdir> <option> [<value>] [-f]
-> ```
-> 
-> 
-> Example to update the method option for a subrepo:
-> ```sh
-> git subrepo config apps/api method rebase
-> ```
-> Changing anything other than `method` requires `--force`
-> 
-
-Example:
-```sh
-git subrepo init apps/admin -r git
-```
 
 #### Connect the repos to their respective remotes
 
@@ -112,6 +87,13 @@ git subrepo init apps/admin -r git
 
 ```sh
 git remote add origin git@github.com:urname/gc-mono.git
+```
+#### Initialize the subrepos
+
+Turn an existing subdirectory into a subrepo.
+Format:
+```sh
+git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|rebase>]
 ```
 ##### Subrepos
 
@@ -122,14 +104,14 @@ Now you can initialize the subrepos
 git add .
 git commit -m "Initial commit"
 
-git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b dev
-# Subrepo created from 'apps/app' with remote 'git@github.com:urname/gc-mono-app.git' (dev).
+git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b main
+# Subrepo created from 'apps/app' with remote 'git@github.com:urname/gc-mono-app.git' (main).
 
-git subrepo init apps/admin -r git@github.com:urname/gc-mono-admin.git -b dev
-# Subrepo created from 'apps/admin' with remote 'git@github.com:urname/gc-mono-admin.git' (dev).
+git subrepo init apps/admin -r git@github.com:urname/gc-mono-admin.git -b main
+# Subrepo created from 'apps/admin' with remote 'git@github.com:urname/gc-mono-admin.git' (main).
 
-git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b dev
-# Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (dev).
+git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b main
+# Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (main).
 ```
 
 ###### Verify setup
@@ -140,26 +122,45 @@ git subrepo status
 
 Git subrepo 'apps/admin':
   Remote URL:      git@github.com:urname/gc-mono-admin.git
-  Tracking Branch: dev
+  Tracking Branch: main
 
 Git subrepo 'apps/api':
   Remote URL:      git@github.com:urname/gc-mono-api.git
-  Tracking Branch: dev
+  Tracking Branch: main
 
 Git subrepo 'apps/app':
   Remote URL:      git@github.com:urname/gc-mono-app.git
-  Tracking Branch: dev
+  Tracking Branch: main
 
 Git subrepo 'apps/medic':
   Remote URL:      git@github.com:urname/gc-mono-medic.git
-  Tracking Branch: dev
+  Tracking Branch: main
 ```
 
-###### Verify subrepo configuration
+> *You can change subrepo configuration any time with the `config` command.*
+>
+> ```sh
+> git subrepo config <subdir> <option> [<value>] [-f]
+> ```
+> 
+> Changing anything other than `method` requires `--force`
+> Example:
+> ```sh
+> git subrepo config apps/api method rebase
+> ```
+
+
+###### Verify a subrepo configuration setting
 
 ```sh
 git subrepo config apps/app remote
 # Subrepo 'apps/app' option 'remote' has value 'git@github.com:urname/gc-mono-app.git'.
+```
+
+#### Push the changes to upstream repos
+
+```sh
+git subrepo push --all --force
 ```
 
 ## Install dependencies
