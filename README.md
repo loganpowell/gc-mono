@@ -122,13 +122,13 @@ Now you can initialize the subrepos
 git add .
 git commit -m "Initial commit"
 
-git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b dev --method rebase
+git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b dev
 # Subrepo created from 'apps/app' with remote 'git@github.com:urname/gc-mono-app.git' (dev).
 
-git subrepo init apps/admin -r git@github.com:urname/gc-mono-admin.git -b dev --method rebase
+git subrepo init apps/admin -r git@github.com:urname/gc-mono-admin.git -b dev
 # Subrepo created from 'apps/admin' with remote 'git@github.com:urname/gc-mono-admin.git' (dev).
 
-git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b dev --method rebase
+git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b dev
 # Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (dev).
 ```
 
@@ -139,19 +139,19 @@ git subrepo status
 4 subrepos:
 
 Git subrepo 'apps/admin':
-  Remote URL:      git@github.com:loganpowell/gc-mono-admin.git
+  Remote URL:      git@github.com:urname/gc-mono-admin.git
   Tracking Branch: dev
 
 Git subrepo 'apps/api':
-  Remote URL:      git@github.com:loganpowell/gc-mono-api.git
+  Remote URL:      git@github.com:urname/gc-mono-api.git
   Tracking Branch: dev
 
 Git subrepo 'apps/app':
-  Remote URL:      git@github.com:loganpowell/gc-mono-app.git
+  Remote URL:      git@github.com:urname/gc-mono-app.git
   Tracking Branch: dev
 
 Git subrepo 'apps/medic':
-  Remote URL:      git@github.com:loganpowell/gc-mono-medic.git
+  Remote URL:      git@github.com:urname/gc-mono-medic.git
   Tracking Branch: dev
 ```
 

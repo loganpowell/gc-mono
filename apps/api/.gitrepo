@@ -7,5 +7,5 @@
 	remote = git@github.com:loganpowell/gc-mono-api.git
 	branch = dev
 	commit = 
-	method = rebase
+	method = merge
 	cmdver = 0.4.6
