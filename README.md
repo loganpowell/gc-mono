@@ -132,17 +132,36 @@ git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b dev --meth
 # Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (dev).
 ```
 
-###### Verify settings
+###### Verify setup
+
+```sh  
+git subrepo status
+4 subrepos:
+
+Git subrepo 'apps/admin':
+  Remote URL:      git@github.com:loganpowell/gc-mono-admin.git
+  Tracking Branch: dev
+
+Git subrepo 'apps/api':
+  Remote URL:      git@github.com:loganpowell/gc-mono-api.git
+  Tracking Branch: dev
+
+Git subrepo 'apps/app':
+  Remote URL:      git@github.com:loganpowell/gc-mono-app.git
+  Tracking Branch: dev
+
+Git subrepo 'apps/medic':
+  Remote URL:      git@github.com:loganpowell/gc-mono-medic.git
+  Tracking Branch: dev
+```
+
+###### Verify subrepo configuration
+
 ```sh
 git subrepo config apps/app remote
 # Subrepo 'apps/app' option 'remote' has value 'git@github.com:urname/gc-mono-app.git'.
-
-git subrepo config apps/admin remote
-# Subrepo 'apps/admin' option 'remote' has value 'git@github.com:urname/gc-mono-admin.git'.
-
-git subrepo config apps/api remote
-# Subrepo 'apps/api' option 'remote' has value 'git@github.com:urname/gc-mono-api.git'.
 ```
+
 ## Install dependencies
 
 ```sh
