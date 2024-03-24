@@ -84,6 +84,7 @@ That will modify your PATH and MANPATH, and also enable command completion.
 Turn an existing subdirectory into a subrepo.
 Format:
 ```sh
+<<<<<<< HEAD
 git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|rebase>]
 ```
 
@@ -101,6 +102,11 @@ git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|r
 > Changing anything other than `method` requires `--force`
 > 
 
+=======
+git subrepo init <subdir> [-r <remote>] [-b <branch>] [--method <merge|rebase>]
+```
+
+>>>>>>> 28b5536 (init)
 Example:
 ```sh
 git subrepo init apps/admin -r git
