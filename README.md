@@ -84,7 +84,6 @@ That will modify your PATH and MANPATH, and also enable command completion.
 Turn an existing subdirectory into a subrepo.
 Format:
 ```sh
-<<<<<<< HEAD
 git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|rebase>]
 ```
 
@@ -102,11 +101,6 @@ git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|r
 > Changing anything other than `method` requires `--force`
 > 
 
-=======
-git subrepo init <subdir> [-r <remote>] [-b <branch>] [--method <merge|rebase>]
-```
-
->>>>>>> 28b5536 (init)
 Example:
 ```sh
 git subrepo init apps/admin -r git
@@ -127,17 +121,13 @@ Now you can initialize the subrepos
 ```sh
 git add .
 git commit -m "Initial commit"
-```
-Now you can initialize the subrepos
-```sh
-# apps/app
-git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b dev --method rebase
 
-# apps/admin
+git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b dev --method rebase
+# Subrepo created from 'apps/app' with remote 'git@github.com:urname/gc-mono-app.git' (dev).
+
 git subrepo init apps/admin -r git@github.com:urname/gc-mono-admin.git -b dev --method rebase
 # Subrepo created from 'apps/admin' with remote 'git@github.com:urname/gc-mono-admin.git' (dev).
 
-# api
 git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b dev --method rebase
 # Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (dev).
 ```
