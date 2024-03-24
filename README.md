@@ -127,13 +127,17 @@ Now you can initialize the subrepos
 ```sh
 git add .
 git commit -m "Initial commit"
-
+```
+Now you can initialize the subrepos
+```sh
+# apps/app
 git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b dev --method rebase
-# Subrepo created from 'apps/app' with remote 'git@github.com:urname/gc-mono-app.git' (dev).
 
+# apps/admin
 git subrepo init apps/admin -r git@github.com:urname/gc-mono-admin.git -b dev --method rebase
 # Subrepo created from 'apps/admin' with remote 'git@github.com:urname/gc-mono-admin.git' (dev).
 
+# api
 git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b dev --method rebase
 # Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (dev).
 ```
