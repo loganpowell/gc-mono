@@ -28,11 +28,13 @@ When prompted to choose a folder, select the current directory `.`
 ### Create the monorepo repository
 
 Format:
+
 ```sh
 gh repo create <unique-repo-name-for-turborepo> [flags]
 ```
 
 Example:
+
 ```sh
 gh repo create gc-mono --public --add-readme
 ✓ Created repository urname/gc-mono on GitHub
@@ -42,11 +44,13 @@ gh repo create gc-mono --public --add-readme
 ### Create separate repos for each app in the `/apps` directory
 
 Format:
+
 ```sh
 gh repo create <unique-repo-name-for-each-app> [flags]
 ```
 
 Example:
+
 ```sh
 gh repo create gc-mono-app --public --add-readme
 ✓ Created repository urname/gc-mono-app on GitHub
@@ -67,7 +71,7 @@ gh repo create gc-mono-api --public --add-readme
 > This uses the [`git-subrepo`](https://github.com/ingydotnet/git-subrepo) tool.
 
 #### [Install `git-subrepo`]() if you haven't already
-    
+
 ```sh
 git clone https://github.com/ingydotnet/git-subrepo /path/to/git-subrepo
 ```
@@ -77,9 +81,8 @@ git clone https://github.com/ingydotnet/git-subrepo /path/to/git-subrepo
 ```sh
 source /path/to/git-subrepo/.rc
 ```
+
 That will modify your PATH and MANPATH, and also enable command completion.
-
-
 
 #### Connect the repos to their respective remotes
 
@@ -88,18 +91,22 @@ That will modify your PATH and MANPATH, and also enable command completion.
 ```sh
 git remote add origin git@github.com:urname/gc-mono.git
 ```
+
 #### Initialize the subrepos
 
 Turn an existing subdirectory into a subrepo.
 Format:
+
 ```sh
 git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|rebase>]
 ```
+
 ##### Subrepos
 
 > Before using `git subrepo` commit any uncommitted changes
 
 Now you can initialize the subrepos
+
 ```sh
 git add .
 git commit -m "Initial commit"
@@ -116,7 +123,7 @@ git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b main
 
 ###### Verify setup
 
-```sh  
+```sh
 git subrepo status
 4 subrepos:
 
@@ -137,18 +144,18 @@ Git subrepo 'apps/medic':
   Tracking Branch: main
 ```
 
-> *You can change subrepo configuration any time with the `config` command.*
+> _You can change subrepo configuration any time with the `config` command._
 >
 > ```sh
 > git subrepo config <subdir> <option> [<value>] [-f]
 > ```
-> 
+>
 > Changing anything other than `method` requires `--force`
 > Example:
+>
 > ```sh
 > git subrepo config apps/api method rebase
 > ```
-
 
 ###### Verify a subrepo configuration setting
 
@@ -166,27 +173,27 @@ git subrepo push --all --force
 ## Install dependencies
 
 ```sh
-npm install
-````
+pnpm install
+```
 
 Inside this directory, you can run several commands:
 
 Build all apps and packages
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 Develop all apps and packages
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 Lint all apps and packages
 
 ```sh
-npm run lint
+pnpm run lint
 ```
 
 ## What's inside?
