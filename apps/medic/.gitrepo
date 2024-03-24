@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:loganpowell/gc-mono-medic.git
 	branch = main
-	commit = 6bc753f822808546a7b5d51953ec8b8c3df0d0a5
+	commit = 46e8cd26960b35a48bf5dc128d696d2d10e47536
 	method = merge
 	cmdver = 0.4.6
-	parent = 183da481d659fe49ee2f41812925e6bc41392e0b
+	parent = 35041b2af07727d998210c3c463d6c988d238709
