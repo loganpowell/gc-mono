@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:loganpowell/gc-mono-api.git
 	branch = main
-	commit = a7700ef439513e86e8ec52df340f187c4f5c9809
+	commit = c510ff6291ac5d76cb5cbee9179e1761e8048bfa
 	method = merge
 	cmdver = 0.4.6
-	parent = eb9b186b68ddd065123871aba1506c5ec4e689f6
+	parent = 5bc3adbfc0af58db95df45d68b16f44a7f708c32
