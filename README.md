@@ -36,7 +36,7 @@ gh repo create <unique-repo-name-for-turborepo> [flags]
 Example:
 
 ```sh
-gh repo create gc-mono --public --add-readme
+gh repo create gc-mono --public
 ✓ Created repository urname/gc-mono on GitHub
   https://github.com/urname/gc-mono
 ```
@@ -52,65 +52,57 @@ gh repo create <unique-repo-name-for-each-app> [flags]
 Example:
 
 ```sh
-gh repo create gc-mono-app --public --add-readme
+gh repo create gc-mono-app --public
 ✓ Created repository urname/gc-mono-app on GitHub
   https://github.com/urname/gc-mono-app
 
-gh repo create gc-mono-admin --public --add-readme
+gh repo create gc-mono-admin --public
 ✓ Created repository urname/gc-mono-admin on GitHub
   https://github.com/urname/gc-mono-admin
 
-gh repo create gc-mono-api --public --add-readme
+gh repo create gc-mono-api --public
 ✓ Created repository urname/gc-mono-api on GitHub
   https://github.com/urname/gc-mono-api
 
 ```
 
-### Step 3: Initialize git subrepos for each app in the `/apps` directory
+# Connect the repos to their respective remotes
 
-> This uses the [`git-subrepo`](https://github.com/ingydotnet/git-subrepo) tool.
-
-#### [Install `git-subrepo`]() if you haven't already
-
-```sh
-git clone https://github.com/ingydotnet/git-subrepo /path/to/git-subrepo
-```
-
-`source` the .rc file. Just add a line like this one to your shell startup script:
-
-```sh
-source /path/to/git-subrepo/.rc
-```
-
-That will modify your PATH and MANPATH, and also enable command completion.
-
-#### Connect the repos to their respective remotes
-
-##### Main repo
+## Main repo
 
 ```sh
 git remote add origin git@github.com:urname/gc-mono.git
 ```
 
-#### Initialize the subrepos
+## Subrepos
 
-Turn an existing subdirectory into a subrepo.
+**REQUIRED: [Install `git-subrepo`]**
+
+Initialize git subrepos for each app in the `/apps` directory
+
+> BEFORE USING `git subrepo`, STASH ANY UNCOMMITTED CHANGES
+
+### Sync Subrepos with the Monorepo
+
+Before you can push changes to subrepos, you'll need to sync all subrepositories with the monorepo. This is a one-time operation.
+
+#### 1: Stash all uncommited changes
+
+```sh
+git stash
+```
+
+#### 2: Initialize the subrepos
+
 Format:
 
 ```sh
 git subrepo init <subdir> [-r <remote>] [-b <default-branch>] [--method <merge|rebase>]
 ```
 
-##### Subrepos
-
-> Before using `git subrepo` commit any uncommitted changes
-
-Now you can initialize the subrepos
+Example:
 
 ```sh
-git add .
-git commit -m "Initial commit"
-
 git subrepo init apps/app -r git@github.com:urname/gc-mono-app.git -b main
 # Subrepo created from 'apps/app' with remote 'git@github.com:urname/gc-mono-app.git' (main).
 
@@ -121,7 +113,19 @@ git subrepo init apps/api -r git@github.com:urname/gc-mono-api.git -b main
 # Subrepo created from 'apps/api' with remote 'git@github.com:urname/gc-mono-api.git' (main).
 ```
 
-###### Verify setup
+#### 3. Pull changes from the remote
+
+```sh
+git subrepo pull --all
+```
+
+If you run into any errors, use the `--force` flag to overwrite the local changes with the remote changes. (**hence the need to `stash` changes before initializing the subrepos**)
+
+```sh
+git subrepo pull --all --force # should only be needed on the first sync
+```
+
+Verify setup
 
 ```sh
 git subrepo status
@@ -144,33 +148,77 @@ Git subrepo 'apps/medic':
   Tracking Branch: main
 ```
 
-> _You can change subrepo configuration any time with the `config` command._
->
-> ```sh
-> git subrepo config <subdir> <option> [<value>] [-f]
-> ```
->
-> Changing anything other than `method` requires `--force`
-> Example:
->
-> ```sh
-> git subrepo config apps/api method rebase
-> ```
-
-###### Verify a subrepo configuration setting
+#### 4. Pop the stash
 
 ```sh
-git subrepo config apps/app remote
-# Subrepo 'apps/app' option 'remote' has value 'git@github.com:urname/gc-mono-app.git'.
+git stash pop
 ```
 
-#### Push the changes to upstream repos
+#### 5. Commit the changes to the main monorepo
 
 ```sh
-git subrepo push --all --force
+git add .
+git commit -m "Initial commit"
+git push origin main
 ```
 
-## Install dependencies
+#### 6. Push the changes to upstream repos
+
+```sh
+git subrepo push --all
+```
+
+_You can change subrepo configuration any time with the `config` command._
+
+```sh
+git subrepo config <subdir> <option> [<value>] [-f]
+```
+
+Example:
+
+```sh
+git subrepo config apps/api method rebase
+```
+
+_Changing anything other than the subrepo's default `method` requires using `--force`_
+
+**From this point on, you should be able to pull/push changes to subrepos using the `--all` flag**
+
+### `pull`
+
+Format:
+
+```sh
+git subrepo pull <subdir>|--all [-M|-R|-f] [-m <msg>] [--file=<msg file>] [-e] [-b <branch>] [-r <remote>] [-u]
+```
+
+Example:
+
+```sh
+git subrepo pull --all -b dev -m "fix: bug"
+```
+
+### `push`
+
+Format:
+
+```sh
+git subrepo push <subdir>|--all [<branch>] [-m msg] [--file=<msg file>] [-r <remote>] [-b <branch>] [-M|-R] [-u] [-f] [-s] [-N]
+```
+
+Example:
+
+```sh
+git subrepo push --all -b dev -m "fix: bug"
+```
+
+Read the `git-subrepo` docs to understand the [flags] and [options]
+
+[flags]: https://github.com/ingydotnet/git-subrepo?tab=readme-ov-file#command-options
+[options]: https://github.com/ingydotnet/git-subrepo?tab=readme-ov-file#output-options
+[Install `git-subrepo`]: https://github.com/ingydotnet/git-subrepo?tab=readme-ov-file#installation-instructions
+
+# Install and Run All Apps
 
 ```sh
 pnpm install
@@ -196,28 +244,33 @@ Lint all apps and packages
 pnpm run lint
 ```
 
-## What's inside?
+## What's inside the Turborepo?
 
 This Turborepo includes the following packages and apps:
 
 ### Apps and Packages
 
--   `docs`: a vanilla [vite](https://vitejs.dev) ts app
--   `web`: another vanilla [vite](https://vitejs.dev) ts app
--   `@repo/ui`: a stub component & utility library shared by both `web` and `docs` applications
+-   `api`: an [Express] server
+-   `app`: a vanilla [vite] ts app
+-   `admin`: another vanilla [vite] ts app
+-   `@repo/jest-presets`: Jest configurations
+-   `@repo/logger`: isomorphic logger (a small wrapper around console.log)
+-   `@repo/ui`: a stub component & utility library shared by both `admin` and `app` applications
 -   `@repo/eslint-config`: shared `eslint` configurations
 -   `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/).
+Each package and app is 100% [TypeScript].
 
 ### Utilities
 
 This Turborepo has some additional tools already setup for you:
 
--   [TypeScript](https://www.typescriptlang.org/) for static type checking
--   [ESLint](https://eslint.org/) for code linting
--   [Prettier](https://prettier.io) for code formatting
+-   [TypeScript] for static type checking
+-   [ESLint]for code linting
+-   [Prettier] for code formatting
 
-```
-
-```
+[vite]: https://vitejs.dev
+[Express]: https://expressjs.com/
+[TypeScript]: https://www.typescriptlang.org/
+[ESLint]: https://eslint.org/
+[Prettier]: https://prettier.io
