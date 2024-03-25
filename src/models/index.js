@@ -1,4 +1,4 @@
-import { and, eq, inArray, like } from "drizzle-orm";
+import { and, eq, like } from "drizzle-orm";
 
 import {
   users,
@@ -113,12 +113,14 @@ export const Video = (db) => ({
     return video;
   },
   delete: async (id) => {
-    await db.delete(translations).where(
-      and(
-        eq(translations.translatableID, id),
-        eq(translations.translatableType, 'video')
-      )
-    )
+    await db
+      .delete(translations)
+      .where(
+        and(
+          eq(translations.translatableID, id),
+          eq(translations.translatableType, "video"),
+        ),
+      );
     return await db.delete(videos).where(eq(videos.id, id)).returning();
   },
   getUnReviewed: async () =>
@@ -133,29 +135,17 @@ export const Video = (db) => ({
     const results = await db
       .select()
       .from(videos)
-      .innerJoin(
-        translations,
-        and(
-          eq(videos.id, translations.translatableID),
-          eq(translations.translatableType, "video"),
-          eq(translations.language, language),
-        ),
-      )
       .where(
         and(
-          inArray(translations.translatableField, [
-            "title",
-            "description",
-            "keywords",
-            "content_text",
-          ]),
-          like(translations.text, `%${keywords}%`),
+          like(videos.metadata, `%${keywords}%`),
+          eq(videos.status, "approved"),
+          eq(videos.language, language),
         ),
       )
       .groupBy(videos.id);
 
     return results.reduce((r, result) => {
-      r.push({ ...result.videos, ...JSON.parse(result.videos.metadata) });
+      r.push({ ...result, ...JSON.parse(result.metadata) });
 
       return r;
     }, []);
