@@ -1,16 +1,22 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "eslint": "^8.57.0",
-    "@repo/eslint-config": "workspace:*",
-    "prettier": "^3.2.5",
-    "turbo": "latest"
-  },
-  "packageManager": "pnpm@8.9.0"
+    "private": true,
+    "scripts": {
+        "hydrate": "sh ./scripts/hydrate.sh",
+        "build": "turbo build --filter=admin --filter=api --filter=app --filter=medic",
+        "dev": "turbo dev --filter=admin --filter=api --filter=app --filter=medic",
+        "lint": "turbo lint",
+        "clean": "turbo clean",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    },
+    "devDependencies": {
+        "eslint": "^8.57.0",
+        "@repo/eslint-config": "workspace:*",
+        "@repo/typescript-config": "workspace:*",
+        "prettier": "^3.2.5",
+        "turbo": "latest"
+    },
+    "packageManager": "pnpm@8.9.0",
+    "engines": {
+        "node": ">=18"
+    }
 }

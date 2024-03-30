@@ -4,9 +4,9 @@
 ; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
 ;
 [subrepo]
-	remote = git@github.com:loganpowell/gc-mono-api.git
-	branch = main
-	commit = c510ff6291ac5d76cb5cbee9179e1761e8048bfa
+	remote = git@github.com:gaza-care/api.git
+	branch = master
+	commit = f9de8174374e455e805bc46a86c9b9dae6361946
+	parent = 1be6235e20e48f6baa913013076e46d7938c2b1b
 	method = merge
 	cmdver = 0.4.6
-	parent = 5bc3adbfc0af58db95df45d68b16f44a7f708c32

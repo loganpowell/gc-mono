@@ -1,9 +1,11 @@
 {
-  "extends": "@repo/typescript-config/base.json",
+  "extends": "@repo/typescript-config/vite.json",
+  "include": ["src"],
   "compilerOptions": {
-    "lib": ["ES2015"],
-    "outDir": "./dist"
-  },
-  "exclude": ["node_modules"],
-  "include": ["."]
+    "baseUrl": ".",
+    "paths": {
+      "@*": ["./src/*"]
+    },
+    "jsxImportSource": "hono/jsx"
+  }
 }

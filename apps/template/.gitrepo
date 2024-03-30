@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:loganpowell/gc-mono-medic.git
+	branch = main
+	commit = 46e8cd26960b35a48bf5dc128d696d2d10e47536
+	method = merge
+	cmdver = 0.4.6
+	parent = 35041b2af07727d998210c3c463d6c988d238709

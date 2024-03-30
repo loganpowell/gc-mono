@@ -1,0 +1,21 @@
+.Home .metadata {
+  margin-top: 10px;
+}
+
+.Home .actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Home .subtitle.block.uploads {
+  margin-top: 20px;
+}
+
+.Home .UploadedVideo video {
+  width: 100%;
+  height: 200px;
+}
+
+.Home .pending {
+  margin-top: 20px;
+}

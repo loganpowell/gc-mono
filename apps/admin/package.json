@@ -4,19 +4,29 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --clearScreen false",
+        "dev": "vite",
         "build": "tsc && vite build",
+        "deploy": "pnpm build && npx wrangler pages deploy dist",
         "preview": "vite preview",
         "lint": "eslint \"src/**/*.ts\""
     },
     "dependencies": {
-        "@repo/ui": "workspace:*"
+        "@react-oauth/google": "^0.12.1",
+        "@repo/ui": "workspace:*",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.22.3"
     },
     "devDependencies": {
         "@repo/eslint-config": "workspace:*",
         "@repo/typescript-config": "workspace:*",
+        "@types/node": "^20.11.24",
+        "@types/react": "^18.2.69",
+        "@types/react-dom": "^18.2.22",
+        "@vitejs/plugin-react": "^4.2.1",
         "eslint": "^8.57.0",
         "typescript": "^5.3.3",
-        "vite": "^5.1.4"
+        "vite": "^5.1.4",
+        "vite-tsconfig-paths": "^4.3.2"
     }
 }
