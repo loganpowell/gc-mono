@@ -1,5 +1,5 @@
 import '@repo/ui/styles.css'
-import './globals.css'
+import './main.css'
 import { createRoot } from 'react-dom/client'
 import Page from './page'
 import Stub from '@components/Stub'
