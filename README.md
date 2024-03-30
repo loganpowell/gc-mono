@@ -220,12 +220,18 @@ if you get a [`rev-list error`] like this:
 git-subrepo: Command failed: 'git rev-list --reverse --ancestry-path --topo-order xxxxxxxxxxxxx..HEAD'.
 ```
 
-If you don't need individual changes
-a. git subrepo branch
-b. cd into branch dir
-c. git fetch external repo info
-d. merge external repo into branch
-e. git subrepo commit
+This can happen on `pull` due to the following being done on your behalf by `git-subrepo`:
+
+```sh
+git subrepo fetch <subdir>
+git subrepo branch <subdir>
+git merge/rebase subrepo/<subdir>/fetch subrepo/<subdir>
+git subrepo commit <subdir>
+# Only needed for a consequential push:
+git update-ref refs/subrepo/<subdir>/pull subrepo/<subdir>
+```
+
+If you run into this issue, do these yourself and then run `git subrepo commit <subdir>`.
 
 Read the `git-subrepo` docs to understand the [flags] and [options]
 
