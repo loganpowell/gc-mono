@@ -212,8 +212,24 @@ Example:
 git subrepo push --all -b dev -m "fix: bug"
 ```
 
+## Trouble Shooting `git-subrepo`
+
+if you get a [`rev-list error`] like this:
+
+```sh
+git-subrepo: Command failed: 'git rev-list --reverse --ancestry-path --topo-order xxxxxxxxxxxxx..HEAD'.
+```
+
+If you don't need individual changes
+a. git subrepo branch
+b. cd into branch dir
+c. git fetch external repo info
+d. merge external repo into branch
+e. git subrepo commit
+
 Read the `git-subrepo` docs to understand the [flags] and [options]
 
+[`rev-list error`]: https://github.com/ingydotnet/git-subrepo/issues/524
 [flags]: https://github.com/ingydotnet/git-subrepo?tab=readme-ov-file#command-options
 [options]: https://github.com/ingydotnet/git-subrepo?tab=readme-ov-file#output-options
 [Install `git-subrepo`]: https://github.com/ingydotnet/git-subrepo?tab=readme-ov-file#installation-instructions
