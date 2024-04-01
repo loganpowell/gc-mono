@@ -5,12 +5,29 @@ exports[`<App /> renders correctly 1`] = `
   className="App"
 >
   <div
+    className="links"
+  >
+    <ul>
+      <li>
+        <a>
+          your uploads
+        </a>
+      </li>
+      <li />
+    </ul>
+  </div>
+  <div
     className="logo"
   >
     <img
       alt="gaza care logo"
       src="test-file-stub"
     />
+  </div>
+  <div
+    className="app-info"
+  >
+    find first aid essentials to help those injured in war zones
   </div>
   <div
     className="field"

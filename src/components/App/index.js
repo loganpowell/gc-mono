@@ -18,9 +18,20 @@ const App = ({ intl }) => {
 
   return (
     <div className="App">
+      <div className="links">
+        <ul>
+          <li>
+            <a href={process.env.MEDIC_APP_URL}>
+              {intl.formatMessage({ id: "medic-link" })}
+            </a>
+          </li>
+          <li></li>
+        </ul>
+      </div>
       <div className="logo">
         <img src={Logo} alt="gaza care logo" />
       </div>
+      <div className="app-info">{intl.formatMessage({ id: "app-info" })}</div>
       <div className="field">
         <div className="control">
           <input
@@ -40,7 +51,7 @@ const App = ({ intl }) => {
               search(dispatch, searchQuery, language);
             }}
           >
-            search
+            {intl.formatMessage({ id: "search" })}
           </button>
         </div>
       </div>

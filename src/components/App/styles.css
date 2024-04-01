@@ -10,3 +10,7 @@
 .App input[type="text"]::placeholder {
   text-align: center;
 }
+
+.App .app-info {
+  text-align: center;
+}
