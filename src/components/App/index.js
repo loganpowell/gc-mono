@@ -35,7 +35,7 @@ const App = ({ intl }) => {
       <div className="field">
         <div className="control">
           <input
-            className="input"
+            className="input search-bar"
             type="text"
             placeholder={intl.formatMessage({ id: "search" })}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -43,9 +43,9 @@ const App = ({ intl }) => {
         </div>
       </div>
       <div className="field">
-        <div className="control">
+        <div className="control search-action">
           <button
-            className="button is-primary"
+            className="button is-primary search-button"
             onClick={async () => {
               const language = navigator.language.split("-")[0];
               search(dispatch, searchQuery, language);

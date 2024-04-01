@@ -1,7 +1,6 @@
 @media only screen and (min-width: 736px) {
   .App {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 960px;
+    margin: 0 auto;
   }
 }

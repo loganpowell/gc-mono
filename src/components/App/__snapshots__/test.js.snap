@@ -10,7 +10,7 @@ exports[`<App /> renders correctly 1`] = `
     <ul>
       <li>
         <a>
-          your uploads
+          Your Uploads
         </a>
       </li>
       <li />
@@ -36,7 +36,7 @@ exports[`<App /> renders correctly 1`] = `
       className="control"
     >
       <input
-        className="input"
+        className="input search-bar"
         onChange={[Function]}
         placeholder="search"
         type="text"
@@ -47,10 +47,10 @@ exports[`<App /> renders correctly 1`] = `
     className="field"
   >
     <div
-      className="control"
+      className="control search-action"
     >
       <button
-        className="button is-primary"
+        className="button is-primary search-button"
         onClick={[Function]}
       >
         search
