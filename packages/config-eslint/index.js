@@ -2,7 +2,7 @@ const { resolve } = require('node:path')
 
 const project = resolve(process.cwd(), 'tsconfig.json')
 
-module.exports = {
+export default {
     env: {
         node: true,
     },

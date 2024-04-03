@@ -1,21 +1,21 @@
-import React from 'react'
-import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { GoogleOAuthProvider } from '@react-oauth/google'
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import { routes } from './routes'
+import { routes } from "./routes";
 
-const container = document.getElementById('app')
+const container = document.getElementById("app") as HTMLElement;
 
-const root = createRoot(container)
+const root = createRoot(container);
 
-const router = createBrowserRouter([routes])
+const router = createBrowserRouter([routes]);
 
-const GOOGLE_API_CLIENT_ID = import.meta.env.GOOGLE_API_CLIENT_ID || ''
+const GOOGLE_API_CLIENT_ID = import.meta.env.GOOGLE_API_CLIENT_ID || "";
 root.render(
-    <React.StrictMode>
-        <GoogleOAuthProvider clientId={GOOGLE_API_CLIENT_ID}>
-            <RouterProvider router={router} />
-        </GoogleOAuthProvider>
-    </React.StrictMode>
-)
+  <React.StrictMode>
+    <GoogleOAuthProvider clientId={GOOGLE_API_CLIENT_ID}>
+      <RouterProvider router={router} />
+    </GoogleOAuthProvider>
+  </React.StrictMode>
+);
