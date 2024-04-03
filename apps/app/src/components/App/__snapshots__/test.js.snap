@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> renders correctly 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="links"
+  >
+    <ul>
+      <li>
+        <a>
+          Your Uploads
+        </a>
+      </li>
+      <li />
+    </ul>
+  </div>
+  <div
+    className="logo"
+  >
+    <img
+      alt="gaza care logo"
+      src="test-file-stub"
+    />
+  </div>
+  <div
+    className="app-info"
+  >
+    find first aid essentials to help those injured in war zones
+  </div>
+  <div
+    className="field"
+  >
+    <div
+      className="control"
+    >
+      <input
+        className="input search-bar"
+        onChange={[Function]}
+        placeholder="search"
+        type="text"
+      />
+    </div>
+  </div>
+  <div
+    className="field"
+  >
+    <div
+      className="control search-action"
+    >
+      <button
+        className="button is-primary search-button"
+        onClick={[Function]}
+      >
+        search
+      </button>
+    </div>
+  </div>
+  <div
+    className="videos"
+  />
+</div>
+`;

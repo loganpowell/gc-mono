@@ -1,0 +1,6 @@
+@media only screen and (min-width: 736px) {
+  .App {
+    width: 960px;
+    margin: 0 auto;
+  }
+}
