@@ -1,11 +1,10 @@
 {
-    "extends": "@repo/typescript-config/vite.json",
-    "include": ["."],
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@ui/*": ["./src/*"] // no other project in the monorepo uses this alias
-        }
-    },
-    "exclude": ["node_modules"]
+  "extends": "@repo/typescript-config/vite.json",
+  "include": ["."],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@ui/*": ["./src/*"] // no other project in the monorepo uses this alias
+    }
+  }
 }

@@ -1,122 +1,80 @@
-# Turborepo + Vite + git-subrepo
+# Turborepo + `git subtree` + Vite + React
 
 # Instructions
-
-## Scaffolding the Turborepo
-
-### Create a new Turborepo (with Vite template)
-
-Create a new directory and cd into it:
-
-```sh
-mkdir <my-turbosub> && cd <my-turbosub>
-```
-
-Generate the turborepo example with the Vite template:
-
-| PM     | Command                                     |
-| ------ | ------------------------------------------- |
-| `pnpm` | `pnpm dlx create-turbo@latest -e with-vite` |
-| `npm`  | `npx create-turbo@latest -e with-vite`      |
-
-When prompted to choose a folder, select the current directory `.`
-
-## Creating the repositories for the turborepo and each app
-
-> Note: We are using the [github cli](https://cli.github.com/), but you can also do this manually via the github website
-
-### Create the monorepo repository
-
-Format:
-
-```sh
-gh repo create <unique-repo-name-for-turborepo> [flags]
-```
-
-Example:
-
-```sh
-gh repo create gc-mono --public
-✓ Created repository urname/gc-mono on GitHub
-  https://github.com/urname/gc-mono
-```
-
-### Create separate repos for each app in the `/apps` directory
-
-Format:
-
-```sh
-gh repo create <unique-repo-name-for-each-app> [flags]
-```
-
-Example:
-
-```sh
-gh repo create gc-mono-app --public
-✓ Created repository urname/gc-mono-app on GitHub
-  https://github.com/urname/gc-mono-app
-
-gh repo create gc-mono-admin --public
-✓ Created repository urname/gc-mono-admin on GitHub
-  https://github.com/urname/gc-mono-admin
-
-gh repo create gc-mono-api --public
-✓ Created repository urname/gc-mono-api on GitHub
-  https://github.com/urname/gc-mono-api
-
-```
 
 # Connect the repos to their respective remotes
 
 ## Main repo
 
 ```sh
-git remote add origin git@github.com:urname/gc-mono.git
+git clone git@github.com:urname/monorepo.git
+# git clone <remote-url-or-ssh>
 ```
 
-# Install and Run All Apps
+# Using `git subtree` (per app in `apps/`)
+
+Add a new remote for the app
+
+```sh
+git remote add api git@github.com:urname/subrepo.git
+# git remote add <remote-name> <remote-url-or-ssh>
+```
+
+Add the remote as a subtree
+
+```sh
+git subtree add --prefix=apps/api api turbo
+# git subtree add --prefix=<local-dir> <remote-name> <sync-branch>
+```
+
+Pull changes from the remote
+
+```sh
+git subtree pull --prefix=apps/api --squash api turbo
+# git subtree pull --prefix=<local-dir> --squash <remote-name> <sync-branch>
+```
+
+Push changes to the remote
+
+```sh
+git subtree push --prefix=apps/api api turbo
+# git subtree push --prefix=<local-dir> <remote-name> <sync-branch>
+```
+
+Explanation:
+Git subtree allows individual directories within this monorepo to be housed as separate repositories. This allows us to both control access to the individual apps and to use Cloudflare pages on those apps - with their nice preview builds built into their github integration.
+
+# Install and Run All Apps (`pnpm`)
+
+> Turborepo has specific settings per package manager. This monorepo uses `pnpm` as the package manager, so you'll need to have it installed globally.
+
+Inside this directory, you can run several commands:
 
 ```sh
 pnpm install
 ```
 
-Inside this directory, you can run several commands:
-
 Build all apps and packages
 
 ```sh
-pnpm run build
+pnpm build
 ```
 
 Develop all apps and packages
 
 ```sh
-pnpm run dev
+pnpm dev
 ```
 
 Lint all apps and packages
 
 ```sh
-pnpm run lint
+pnpm lint
 ```
 
 ---
 
 # Implementing New `/apps/`
-
-The components of this framework include:
-
-- Vite.js
-- TypeScript
-- React
-- Cloudflare:
-  - Workers
-  - Pages
-  - D1
-  - R2
-  - Stream (video)
-  - Wrangler (cli)
-- hono
 
 ## Port Configuration
 
@@ -129,45 +87,64 @@ ALLOWED_ORIGINS = "http://localhost:8787, http://localhost:8788, http://localhos
 ...
 ```
 
+Application (`vite`) ports are set in the `constants.json` file in the root of the monorepo.
+
+```json
+// constants.json
+{
+  "ports": {
+    "admin": 8787,
+    "app": 8788,
+    "medic": 8789,
+    "template": 9090
+  }
+}
+```
+
 ### Port Configs for React Apps (Vite)
 
 You'll need to set one of these adjudicated ports for the app to run on. This is done in each `apps/<app>/vite.config.ts` file. For example:
 
 ```ts
 // apps/app/vite.config.ts
-import { resolve } from "path";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+// irrelevant imports omitted for brevity
+...
+import { getConfig } from "@repo/constants";
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 8788,
-    open: true, // open the browser for the app when the server starts
-  },
-  clearScreen: false, // prevents clearing the terminal (default is true)
-  optimizeDeps: {
-    exclude: ["@repo"],
-  },
+export default defineConfig(async () => {
+  const {
+    constants: {
+      ports: { app },
+    },
+  } = await getConfig();
+  return {
+    ...
+    server: {
+      port: app, // from constants.json
+      open: true, // open the browser when the server starts
+      watch: {
+        ignored: ["!**/node_modules/@repo/**"],
+      },
+    },
+    ...
+  };
 });
 ```
 
-The `clearScreen` option is set to `false` to prevent the terminal from being cleared when the app is started. This is useful when you have multiple apps running in the same terminal.
-
-The `open` option is set to `true` to open the browser for the app when the server starts.
-
-### Port Configs for Cloudflare Worker Apps (Wrangler)
+### Port Configs for Cloudflare Worker Apps (`wrangler dev`)
 
 To set the port for a Cloudflare worker app, you'll need to set the port in the `wrangler.toml` file. For example:
 
 ```toml
+# apps/api/wrangler.toml
 [dev]
 port = 8080
 ```
 
-#### `--show-interactive-dev-session=false`
+**`--show-interactive-dev-session=false`**
 
 ```json
+// apps/api/package.json
 {
   "name": "api",
   "type": "module",
@@ -178,7 +155,7 @@ port = 8080
 }
 ```
 
-The `--show-interactive-dev-session=false` flag prevents the default `wrangler dev` behavior of displaying interactive options:
+The `--show-interactive-dev-session=false` flag prevents the below (default) `wrangler dev` cli display:
 
 ```sh
 [b] open a browser, [d] open Devtools, [l] turn off local mode, [c] clear console, [x] to exit
@@ -186,7 +163,7 @@ The `--show-interactive-dev-session=false` flag prevents the default `wrangler d
 
 This adds a lot of noise to the terminal and obscures the output of any sibling processes that are running during development.
 
-### Import Aliases
+## Import Aliases
 
 Using `@`-prefixed aliases in the app will tend to conflict with the `@repo` alias used in the shared components and utilities in the monorepo.
 
@@ -219,71 +196,11 @@ const routes = {
 export { routes }
 ```
 
-In order to get this to work, follow this basic pattern:
-
-```json
-// packages/ui/tsconfig.json
-{
-  "extends": "@config/tsconfig.react.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@ui/*": ["./src/*"] // no other project in the monorepo uses this alias
-    }
-  },
-  "include": ["."]
-}
-```
-
-```json
-// apps/<app>/tsconfig.json
-{
-  "extends": "@config/tsconfig.react.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@ui/*": ["../../packages/ui/src/*"]
-    }
-  },
-  "exclude": ["node_modules", "public"],
-  "include": ["."]
-}
-```
-
-```ts
-// apps/<app>/vite.config.ts
-import { resolve } from "path";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
-import path from "path";
-
-export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src/"),
-      "@ui": path.resolve(__dirname, "../../packages/ui/src"),
-    },
-  },
-  server: {
-    port: 8788,
-    open: true,
-    watch: {
-      ignored: ["!**/node_modules/@repo/**"],
-    },
-  },
-  clearScreen: false,
-  optimizeDeps: {
-    exclude: ["@repo"],
-  },
-});
-```
+or
 
 ```tsx
 // apps/web/src/App.tsx
-import { Button } from "@ui"; // import from ui package
+import { Button } from "@ui/button"; // import from ui package
 import { AppLayout } from "@layouts"; // internal import using alias for apps/web/src/layouts path
 
 export function App() {
@@ -296,28 +213,57 @@ export function App() {
 }
 ```
 
+In order to get this to work, follow this basic pattern:
+
+**`tsconfig.json`:**
+
+```json
+// apps/<app>/tsconfig.json
+{
+  "extends": "@repo/typescript-config/vite.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    // for local aliased components (conflicts with turbo aliases)
+    "paths": {
+      "@*": ["./src/*"],
+      "@ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.js"]
+}
+```
+
 This `extends` the base config shared across all apps and packages in the monorepo, which is located in the `packages/config-typescript/vite.json` file.
+
+**`vite.config.js`:**
+
+```ts
+// apps/<app>/vite.config.js
+import { resolve } from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+import path from "path";
+
+export default defineConfig({
+  plugins: [react(), tsconfigPaths()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src/"), // internal aliases
+      "@ui": path.resolve(__dirname, "../../packages/ui/src"), // shared component library
+    },
+  },
+  ...
+  clearScreen: false, // don't clear the terminal when the app starts
+  optimizeDeps: {
+    exclude: ["@repo"],
+  },
+});
+```
 
 After setting up the aliases, you should be able to use your aliases without any annoying relative paths or red squiggly lines in your editor 😉
 
 ---
-
-## What's inside the Turborepo?
-
-This Turborepo includes the following packages and apps:
-
-### Apps and Packages
-
-- `api`: an [Express] server
-- `app`: a vanilla [vite] ts app
-- `admin`: another vanilla [vite] ts app
-- `@repo/jest-presets`: Jest configurations
-- `@repo/logger`: isomorphic logger (a small wrapper around console.log)
-- `@repo/ui`: a stub component & utility library shared by both `admin` and `app` applications
-- `@repo/eslint-config`: shared `eslint` configurations
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package and app is 100% [TypeScript].
 
 ### Utilities
 

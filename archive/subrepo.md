@@ -1,3 +1,66 @@
+## Scaffolding the Turborepo
+
+### Create a new Turborepo (with Vite template)
+
+Create a new directory and cd into it:
+
+```sh
+mkdir <my-turbosub> && cd <my-turbosub>
+```
+
+Generate the turborepo example with the Vite template:
+
+| PM     | Command                                     |
+| ------ | ------------------------------------------- |
+| `pnpm` | `pnpm dlx create-turbo@latest -e with-vite` |
+
+When prompted to choose a folder, select the current directory `.`
+
+## Creating the repositories for the turborepo and each app
+
+> Note: We are using the [github cli](https://cli.github.com/), but you can also do this manually via the github website
+
+### Create the monorepo repository
+
+Format:
+
+```sh
+gh repo create <unique-repo-name-for-turborepo> [flags]
+```
+
+Example:
+
+```sh
+gh repo create gc-mono --public
+✓ Created repository urname/gc-mono on GitHub
+  https://github.com/urname/gc-mono
+```
+
+### Create separate repos for each app in the `/apps` directory
+
+Format:
+
+```sh
+gh repo create <unique-repo-name-for-each-app> [flags]
+```
+
+Example:
+
+```sh
+gh repo create gc-mono-app --public
+✓ Created repository urname/gc-mono-app on GitHub
+  https://github.com/urname/gc-mono-app
+
+gh repo create gc-mono-admin --public
+✓ Created repository urname/gc-mono-admin on GitHub
+  https://github.com/urname/gc-mono-admin
+
+gh repo create gc-mono-api --public
+✓ Created repository urname/gc-mono-api on GitHub
+  https://github.com/urname/gc-mono-api
+
+```
+
 ## Git `subtree`
 
 **REQUIRED: [Install `git-subrepo`]**
