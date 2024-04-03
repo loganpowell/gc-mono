@@ -1,10 +1,11 @@
 {
+  "name": "api",
   "scripts": {
     "lint": "eslint . --ext=.ts,.js",
     "test": "jest",
     "prettier": "prettier --write . && prettier --check .",
     "db:schema:generate": "drizzle-kit generate:sqlite --schema=db/schema.ts",
-    "dev": "npx wrangler dev src/index.ts -e staging --port 8080",
+    "dev": "npx wrangler dev src/index.ts -e staging --show-interactive-dev-session=false",
     "deploy": "npx wrangler deploy -e production --minify src/index.ts",
     "prepare": "husky install"
   },

@@ -5,7 +5,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { getConfig } from "@repo/constants";
 
 export default defineConfig(async ({ command, mode }) => {
-  const { constants, isLocal } = await getConfig();
+  const { constants } = await getConfig();
+  const {
+    ports: { app },
+  } = constants;
   console.log("Constants", constants);
   return {
     plugins: [react(), tsconfigPaths()],
@@ -16,7 +19,7 @@ export default defineConfig(async ({ command, mode }) => {
       },
     },
     server: {
-      port: 8788,
+      port: app,
       open: true,
       watch: {
         ignored: ["!**/node_modules/@repo/**"],

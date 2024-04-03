@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "hydrate": "sh ./scripts/hydrate.sh",
-    "build": "turbo build --no-cache --force",
+    "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "clean": "turbo clean",

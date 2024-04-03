@@ -5,6 +5,7 @@ enum Ports {
   APP = "app",
   MEDIC = "medic",
   ADMIN = "admin",
+  TEMPLATE = "template",
 }
 
 type Constants = {
@@ -17,12 +18,14 @@ const defaultDevIsLocal = true;
 
 let config: Config | null = null;
 export async function getConfig(): Promise<Config> {
+  const env_path = "../../.env";
+  const const_path = "../../constants.json";
   if (!config) {
     let isLocal: boolean | null = null;
     if (process.env.NODE_ENV === "production") {
       const dotenv = await import("dotenv");
       const envFileContent = await readFile(
-        path.join(import.meta.url, "../../.env"),
+        path.join(import.meta.url, env_path),
         "utf-8"
       ).catch((error) => {
         if (error.code === "ENOENT") {
@@ -40,24 +43,19 @@ export async function getConfig(): Promise<Config> {
       isLocal = false;
     }
 
-    let constantsPath = "../../constants.json";
-    console.log("constantsPath: ", constantsPath);
-
-    const constantsRaw = await readFile(constantsPath, "utf-8").catch(
-      (error) => {
-        if (error.code === "ENOENT") {
-          return null;
-        }
-
-        throw error;
+    const constantsRaw = await readFile(const_path, "utf-8").catch((error) => {
+      if (error.code === "ENOENT") {
+        return null;
       }
-    );
+
+      throw error;
+    });
     const constants = JSON.parse(constantsRaw as string);
     console.log("constants: ", constants);
 
     if (!constantsRaw) {
       throw Error(
-        `Missing constants.json file at ${constantsPath}, please include one`
+        `Missing constants.json file at ${const_path}, please include one`
       );
     }
 

@@ -2,6 +2,7 @@
   "ports": {
     "admin": 8787,
     "app": 8788,
-    "medic": 8789
+    "medic": 8789,
+    "template": 9090
   }
 }
