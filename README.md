@@ -44,6 +44,20 @@ git subtree push --prefix=apps/api api turbo
 Explanation:
 Git subtree allows individual directories within this monorepo to be housed as separate repositories. This allows us to both control access to the individual apps and to use Cloudflare pages on those apps - with their nice preview builds built into their github integration.
 
+## Tip: Add an alias to list the subtrees
+
+```sh
+# ~/.gitconfig
+[alias]
+    subtrees = !"git log | grep git-subtree-dir | awk '{ print $2 }'"
+```
+
+Then use it like this:
+
+```sh
+git subtrees
+```
+
 # Install and Run All Apps (`pnpm`)
 
 > Turborepo has specific settings per package manager. This monorepo uses `pnpm` as the package manager, so you'll need to have it installed globally.
