@@ -1,3 +1,19 @@
+// import '@repo/ui/styles.css'
+// import './main.css'
+// import { createRoot } from 'react-dom/client'
+// import Page from './page'
+// import Stub from '@components/Stub'
+// const container = document.getElementById('app')
+
+// const root = createRoot(container as HTMLElement)
+
+// root.render(
+//     <>
+//         <Stub />
+//         <Page />
+//     </>
+// )
+
 import { H } from "highlight.run";
 
 H.init("6gl9vozg", {
@@ -21,8 +37,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ErrorBoundary } from "@highlight-run/react";
 
 import { routes } from "./routes";
-import Arabic from "@langs/ar.json";
-import English from "@langs/en.json";
+import Arabic from "@lang/ar.json";
+import English from "@lang/en.json";
 import { IntlProvider } from "react-intl";
 
 const locale = navigator.language; // to detact users language
@@ -34,7 +50,7 @@ if (locale.includes("en")) {
   lang = Arabic; // currently setting arabic as default
 }
 
-const container = document.getElementById("root");
+const container = document.getElementById("app") as HTMLElement;
 container.classList.add("root");
 container.classList.add("is-dark");
 
@@ -49,5 +65,5 @@ root.render(
         <RouterProvider router={router} />
       </IntlProvider>
     </ErrorBoundary>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

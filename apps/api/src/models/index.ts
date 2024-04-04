@@ -19,12 +19,12 @@ export const User = (db) => ({
         .limit(1)
     )[0];
 
-    if (result?.users && result.user_identities)
+    if (result?.users !== undefined && result.user_identities !== undefined)
       return { ...result.users, ...result.user_identities };
 
     return null;
   },
-  withUsername: async (username) =>
+  withUsername: async (username: string) =>
     (
       await db.select().from(users).where(eq(users.username, username)).limit(1)
     )[0],
@@ -118,8 +118,8 @@ export const Video = (db) => ({
       .where(
         and(
           eq(translations.translatableID, id),
-          eq(translations.translatableType, "video"),
-        ),
+          eq(translations.translatableType, "video")
+        )
       );
     return await db.delete(videos).where(eq(videos.id, id)).returning();
   },
@@ -139,8 +139,8 @@ export const Video = (db) => ({
         and(
           like(videos.metadata, `%${keywords}%`),
           eq(videos.status, "approved"),
-          eq(videos.language, language),
-        ),
+          eq(videos.language, language)
+        )
       )
       .groupBy(videos.id);
 

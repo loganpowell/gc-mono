@@ -1,17 +1,30 @@
 # Turborepo + `git subtree` + Vite + React
 
-# Instructions
+## Instructions
 
-# Connect the repos to their respective remotes
+### Hydrate the Cloudflare Local Databases
 
-## Main repo
+```sh
+pnpm hydrate
+```
+
+### Connect the repos to their respective remotes
+
+#### Main repo
 
 ```sh
 git clone git@github.com:urname/monorepo.git
 # git clone <remote-url-or-ssh>
 ```
 
-# Using `git subtree` (per app in `apps/`)
+#### Using `git subtree` (per app in `apps/`)
+
+```
+Upon intially cloning the monorepo, you'll need to delete all the apps
+in the `apps/` directory - except for `apps/template`.
+This is because the apps are added as subtrees,
+and the directories need to be empty before adding the subtrees.
+```
 
 Add a new remote for the app
 
@@ -44,7 +57,7 @@ git subtree push --prefix=apps/api api turbo
 Explanation:
 Git subtree allows individual directories within this monorepo to be housed as separate repositories. This allows us to both control access to the individual apps and to use Cloudflare pages on those apps - with their nice preview builds built into their github integration.
 
-## Tip: Add an alias to list the subtrees
+###### Tip: Add a `git` alias to list the subtrees
 
 ```sh
 # ~/.gitconfig
@@ -58,9 +71,13 @@ Then use it like this:
 git subtrees
 ```
 
-# Install and Run All Apps (`pnpm`)
+### Install and Run All Apps (`pnpm`)
 
-> Turborepo has specific settings per package manager. This monorepo uses `pnpm` as the package manager, so you'll need to have it installed globally.
+```
+Turborepo has specific settings per package manager.
+This monorepo uses `pnpm` as the package manager,
+so you'll need to have it installed globally.
+```
 
 Inside this directory, you can run several commands:
 
@@ -88,9 +105,9 @@ pnpm lint
 
 ---
 
-# Implementing New `/apps/`
+## Implementing New `/apps/`
 
-## Port Configuration
+### Port Configuration
 
 in the `apps/api` directory, you'll find a `wrangler.toml` file. In this file, the ports that are allowed by wrangler are set. For example:
 
@@ -115,7 +132,7 @@ Application (`vite`) ports are set in the `constants.json` file in the root of t
 }
 ```
 
-### Port Configs for React Apps (Vite)
+#### Port Configs for React Apps (Vite)
 
 You'll need to set one of these adjudicated ports for the app to run on. This is done in each `apps/<app>/vite.config.ts` file. For example:
 
@@ -145,7 +162,7 @@ export default defineConfig(async () => {
 });
 ```
 
-### Port Configs for Cloudflare Worker Apps (`wrangler dev`)
+#### Port Configs for Cloudflare Worker Apps (`wrangler dev`)
 
 To set the port for a Cloudflare worker app, you'll need to set the port in the `wrangler.toml` file. For example:
 
@@ -177,18 +194,13 @@ The `--show-interactive-dev-session=false` flag prevents the below (default) `wr
 
 This adds a lot of noise to the terminal and obscures the output of any sibling processes that are running during development.
 
-## Import Aliases
+### Import Aliases
 
-Using `@`-prefixed aliases in the app will tend to conflict with the `@repo` alias used in the shared components and utilities in the monorepo.
+Using **`@`**-prefixed aliases in the app will tend to conflict with the `@repo` alias used in the shared components and utilities in the monorepo.
 
-In order to simplify imports, You can either explicitly define local (not shared between apps in the monorepo) dependencies for each app. Or you can use an alternative prefix (e.g., `~` or `#`) for local dependencies.
+In order to simplify imports, You can either explicitly define local (not shared between apps in the monorepo) dependencies for each app. Alternatively, you can use a different prefix (e.g., `~` or `#`) for local dependencies.
 
-The advantages of using a prefix different from `@` are:
-
-- You don't have to worry about conflicts with the `@repo` alias
-- It's easier to distinguish between local and shared dependencies
-
-#### Aliases Examples:
+#### Examples:
 
 _Using explicit local dependencies:_
 
@@ -210,7 +222,7 @@ const routes = {
 export { routes }
 ```
 
-or
+**or**
 
 ```tsx
 // apps/web/src/App.tsx
@@ -229,7 +241,7 @@ export function App() {
 
 In order to get this to work, follow this basic pattern:
 
-**`tsconfig.json`:**
+#### `tsconfig.json`
 
 ```json
 // apps/<app>/tsconfig.json
@@ -249,7 +261,7 @@ In order to get this to work, follow this basic pattern:
 
 This `extends` the base config shared across all apps and packages in the monorepo, which is located in the `packages/config-typescript/vite.json` file.
 
-**`vite.config.js`:**
+#### `vite.config.js`
 
 ```ts
 // apps/<app>/vite.config.js
@@ -279,7 +291,7 @@ After setting up the aliases, you should be able to use your aliases without any
 
 ---
 
-### Utilities
+## Utilities
 
 This Turborepo has some additional tools already setup for you:
 

@@ -6,6 +6,7 @@ enum Ports {
   MEDIC = "medic",
   ADMIN = "admin",
   TEMPLATE = "template",
+  API = "api",
 }
 
 type Constants = {
@@ -51,11 +52,10 @@ export async function getConfig(): Promise<Config> {
       throw error;
     });
     const constants = JSON.parse(constantsRaw as string);
-    console.log("constants: ", constants);
 
     if (!constantsRaw) {
       throw Error(
-        `Missing constants.json file at ${const_path}, please include one`
+        `MISSING: constants.json file at ${const_path}, please include one`
       );
     }
 

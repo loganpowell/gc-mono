@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 const SearchResult = ({ sr }) => {
   return (
@@ -10,7 +10,9 @@ const SearchResult = ({ sr }) => {
         <div className="card-content">
           <div className="content">
             <video controls playsInline>
-              <source src={`${process.env.API_URI}/v1/stream/${sr.filename}`} />
+              <source
+                src={`${import.meta.env.API_URI}/v1/stream/${sr.filename}`}
+              />
               Your device does not support video playback
             </video>
             <span>{sr.description}</span>
@@ -24,6 +26,6 @@ const SearchResult = ({ sr }) => {
 
 export default SearchResult;
 
-SearchResult.propTypes = {
-  sr: PropTypes.object,
-};
+// SearchResult.propTypes = {
+//   sr: PropTypes.object,
+// };

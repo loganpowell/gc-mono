@@ -1,1 +1,12 @@
-{}
+{
+  "extends": "@repo/typescript-config/vite.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    // for local aliased components (conflicts with turbo aliases)
+    "paths": {
+      "@*": ["./src/*"],
+      "@ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.js"]
+}

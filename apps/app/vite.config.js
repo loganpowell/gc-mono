@@ -7,11 +7,14 @@ import { getConfig } from "@repo/constants";
 export default defineConfig(async ({ command, mode }) => {
   const { constants } = await getConfig();
   const {
-    ports: { app },
+    ports: { app, api },
   } = constants;
-  // console.log("Constants", constants);
+  console.log("Constants", constants);
   return {
     plugins: [react(), tsconfigPaths()],
+    define: {
+      "process.env": process.env,
+    },
     resolve: {
       alias: {
         "@": resolve(__dirname, "src/"),

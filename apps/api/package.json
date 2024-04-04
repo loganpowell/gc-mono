@@ -13,6 +13,7 @@
     "*.{js,css,md,ts}": "prettier --write"
   },
   "dependencies": {
+    "@repo/utils": "workspace:*",
     "cookie": "^0.6.0",
     "drizzle-orm": "^0.29.4",
     "hono": "^4.0.7",
@@ -20,6 +21,9 @@
     "sharp": "^0.33.2"
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@repo/constants": "workspace:*",
     "@cloudflare/workers-types": "^4.20240222.0",
     "@commitlint/config-conventional": "^19.1.0",
     "@hono/eslint-config": "^0.0.4",

@@ -3,7 +3,7 @@ import "./styles-large.css";
 
 import { useState, useReducer } from "react";
 import { injectIntl } from "react-intl";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 import { search } from "@actions";
 
@@ -13,7 +13,7 @@ import Logo from "@assets/images/logo.png";
 import { initialState, reducer } from "@reducer";
 
 const App = ({ intl }) => {
-  const [searchQuery, setSearchQuery] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
@@ -21,7 +21,7 @@ const App = ({ intl }) => {
       <div className="links">
         <ul>
           <li>
-            <a href={process.env.MEDIC_APP_URL}>
+            <a href={import.meta.env.MEDIC_APP_URL}>
               {intl.formatMessage({ id: "medic-link" })}
             </a>
           </li>
@@ -48,6 +48,7 @@ const App = ({ intl }) => {
             className="button is-primary search-button"
             onClick={async () => {
               const language = navigator.language.split("-")[0];
+              console.log({ searchQuery, language });
               search(dispatch, searchQuery, language);
             }}
           >
@@ -66,6 +67,6 @@ const App = ({ intl }) => {
 
 export default injectIntl(App);
 
-App.propTypes = {
-  intl: PropTypes.object,
-};
+// App.propTypes = {
+//   intl: PropTypes.object,
+// };

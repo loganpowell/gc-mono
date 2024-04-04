@@ -1,14 +1,16 @@
 {
-  "name": "@repo/constants",
+  "name": "@repo/utils",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./types": "./dist/index.d.ts"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
+    "watch": "tsc -w",
     "lint": "eslint --ext ts .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -20,8 +22,11 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "dotenv": "^16.3.1",
     "@types/node": "^20.9.0",
+    "dotenv": "^16.3.1",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "dotenv-expand": "^11.0.6"
   }
 }
