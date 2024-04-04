@@ -8,5 +8,11 @@
       "@ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.js"]
+  "include": [
+    "**/*.ts",
+    "**/*.jsx",
+    "**/*.tsx",
+    "**/*.js",
+    "./postcss.config.js"
+  ]
 }

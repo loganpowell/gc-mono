@@ -1,1 +1,0 @@
-# gc-mono-app
