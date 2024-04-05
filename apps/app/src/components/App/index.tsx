@@ -25,7 +25,6 @@ const App = ({ intl }) => {
               {intl.formatMessage({ id: "medic-link" })}
             </a>
           </li>
-          <li></li>
         </ul>
       </div>
       <div className="logo">

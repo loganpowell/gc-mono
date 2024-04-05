@@ -1,11 +1,20 @@
-// import '@repo/ui/styles.css'
-// import './main.css'
+import "@repo/ui/styles.css";
+import "./main.css";
 // import { createRoot } from 'react-dom/client'
 // import Page from './page'
 // import Stub from '@components/Stub'
-// const container = document.getElementById('app')
 
 import { H } from "highlight.run";
+
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ErrorBoundary } from "@highlight-run/react";
+
+import { routes } from "./routes";
+import Arabic from "@lang/ar.json";
+import English from "@lang/en.json";
+import { IntlProvider } from "react-intl";
 
 H.init("6gl9vozg", {
   serviceName: "gaza-care-app",
@@ -21,16 +30,6 @@ H.init("6gl9vozg", {
     ],
   },
 });
-
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ErrorBoundary } from "@highlight-run/react";
-
-import { routes } from "./routes";
-import Arabic from "@lang/ar.json";
-import English from "@lang/en.json";
-import { IntlProvider } from "react-intl";
 
 const locale = navigator.language; // to detact users language
 

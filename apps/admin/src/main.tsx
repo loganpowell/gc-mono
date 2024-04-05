@@ -1,4 +1,6 @@
 import React, { useReducer, useEffect } from "react";
+import "./main.css";
+import "@repo/ui/styles.css";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
