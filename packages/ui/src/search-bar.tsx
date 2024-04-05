@@ -15,7 +15,7 @@ export const SearchBar = ({ onClick, onChange, placeholder }) => {
       <div>
         <input
           type="submit"
-          className="w-full px-4 py-2 text-base font-medium text-center text-white bg-blue-700 dark:bg-blue-600 dark:border-blue-600 border border-blue-700 cursor-pointer rounded-r-xl  hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 dark:hover:border-blue-700 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="w-full px-4 py-2 text-base font-medium text-center text-white bg-blue-700 dark:bg-blue-600 dark:border-blue-600 border border-blue-700 cursor-pointer rounded-r-xl  hover:bg-blue-800 dark:hover:border-blue-700 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           value="Search"
           onClick={(e) => (e.preventDefault(), onClick(e))}
         />

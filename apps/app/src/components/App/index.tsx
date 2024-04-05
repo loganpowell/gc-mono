@@ -17,7 +17,7 @@ const App = ({ intl }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <div className="App py-3 px-3">
+    <div className="py-3 px-3">
       <div className="w-80">
         <ul>
           <li>
@@ -44,10 +44,11 @@ const App = ({ intl }) => {
           placeholder={intl.formatMessage({ id: "search" })}
         />
       </div>
-      <div className="videos">
-        {state.searchResults.map((sr, index) => (
-          <SearchResult key={index} sr={sr} />
-        ))}
+      <div className="flex flex-col max-w-xl md:mx-auto">
+        {state.searchResults.map((sr, index) => {
+          console.log({ sr });
+          return <SearchResult key={index} sr={sr} />;
+        })}
       </div>
     </div>
   );

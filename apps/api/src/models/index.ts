@@ -97,7 +97,7 @@ export const Video = (db) => ({
         .returning()
     )[0];
 
-    for (let field of ["title", "description", "keywords"]) {
+    for (const field of ["title", "description", "keywords"]) {
       await db
         .insert(translations)
         .values({
@@ -109,7 +109,6 @@ export const Video = (db) => ({
         })
         .returning();
     }
-
     return video;
   },
   delete: async (id) => {
