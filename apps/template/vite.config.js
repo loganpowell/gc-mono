@@ -12,6 +12,9 @@ export default defineConfig(async () => {
   } = await getConfig();
   return {
     plugins: [react(), tsconfigPaths()],
+    define: {
+      "process.env": process.env,
+    },
     resolve: {
       alias: {
         "@": resolve(__dirname, "src/"),

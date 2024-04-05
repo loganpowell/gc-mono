@@ -5,15 +5,6 @@
 // import Stub from '@components/Stub'
 // const container = document.getElementById('app')
 
-// const root = createRoot(container as HTMLElement)
-
-// root.render(
-//     <>
-//         <Stub />
-//         <Page />
-//     </>
-// )
-
 import { H } from "highlight.run";
 
 H.init("6gl9vozg", {

@@ -4,12 +4,12 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { getConfig } from "@repo/constants";
 
-export default defineConfig(async ({ command, mode }) => {
-  const { constants } = await getConfig();
+export default defineConfig(async () => {
   const {
-    ports: { app },
-  } = constants;
-  console.log("Constants", constants);
+    constants: {
+      ports: { medic },
+    },
+  } = await getConfig();
   return {
     plugins: [react(), tsconfigPaths()],
     define: {
@@ -22,7 +22,7 @@ export default defineConfig(async ({ command, mode }) => {
       },
     },
     server: {
-      port: app,
+      port: medic,
       open: true,
       watch: {
         ignored: ["!**/node_modules/@repo/**"],
@@ -31,8 +31,8 @@ export default defineConfig(async ({ command, mode }) => {
     clearScreen: false,
     // The watched package must be excluded from optimization,
     // so that it can appear in the dependency graph and trigger hot reload.
-    // optimizeDeps: {
-    //   exclude: ["@repo"],
-    // },
+    optimizeDeps: {
+      exclude: ["@repo"],
+    },
   };
 });
