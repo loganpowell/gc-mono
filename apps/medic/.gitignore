@@ -7,7 +7,6 @@ dist-ssr
 server/dist
 public/dist
 node_modules
-dist
 .wrangler
 .dev.vars
 

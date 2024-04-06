@@ -3,18 +3,17 @@ import { useOutletContext } from "react-router-dom";
 import { Card } from "@ui/card";
 import { getVideos, uploadVideo, deleteVideo } from "@actions";
 
-// import "./styles.css";
-
 import FlashMessage from "@components/FlashMessage";
 
 const Home = () => {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null as File | null);
   const [metadata, setMetadata] = useState({});
+  // @ts-ignore
   const { state, dispatch } = useOutletContext();
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef(null as HTMLFormElement["file"]);
 
   const clearForm = () => {
-    fileInputRef.current.value = null;
+    fileInputRef.current.value = "";
     setFile(null);
     setMetadata({});
   };
@@ -23,14 +22,15 @@ const Home = () => {
     getVideos(dispatch);
   }, []);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (Object.keys(state.flashMessage).length < 1) return;
 
     const timeout = setTimeout(() => {
       dispatch({ type: "CLEAR_FLASH_MESSAGE" });
     }, state.flashMessage.flashDuration);
 
-    return (timeout) => {
+    // @ts-ignore
+    return () => {
       clearTimeout(timeout);
     };
   }, [state.flashMessage]);
@@ -49,10 +49,10 @@ const Home = () => {
           <input
             className="file-input"
             type="file"
-            files={[file]}
+            // files={[file]}
             ref={fileInputRef}
             onChange={(e) => {
-              setFile(e.target.files[0]);
+              setFile(e.target?.files ? e.target.files[0] : null);
             }}
           />
           <span className="file-cta">

@@ -1,49 +1,110 @@
-const initialState = {
-  flashMessage: {},
-  user: {},
+import { ReducerWithoutAction } from "react";
+
+const initialState: IState = {
+  loading: false,
+  flashMessage: {
+    type: "",
+    header: "",
+    body: "",
+    flashDuration: 0,
+  },
+  user: {
+    uid: "",
+    profile: {
+      picture: "",
+      name: "",
+    },
+  },
+  uploadingVideo: false,
   uploadsByID: {},
   uploads: {
     pending: [],
-    approved: []
+    approved: [],
   },
 };
 
-const groupByStatus = uploads => {
-  console.log('got uploads!!', uploads)
-  return Object.values(uploads).reduce((r, v) => {
-    r[v.status] ||= [];
-    r[v.status].push(v);
+interface IUpload {
+  id: string;
+  status: string;
+}
 
-    return r;
-  }, {});
+interface IUploads {
+  pending: IUpload[];
+  approved: IUpload[];
+}
+export interface IState {
+  loading: boolean;
+  flashMessage: Partial<{
+    type: string;
+    header: string;
+    body: string;
+    flashDuration: number;
+  }>;
+  user: Partial<{
+    uid: string;
+    profile: {
+      name: string;
+      picture: string;
+    };
+  }>;
+  uploadingVideo: boolean;
+  uploadsByID: {
+    [key: string]: IUpload;
+  };
+  uploads: IUploads;
+}
+
+type Action =
+  | { type: "RECEIVED_AUTH"; data: any }
+  | { type: "RECEIVED_LOGOUT" }
+  | { type: "REQUESTING_VIDEOS" }
+  | { type: "RECEIVED_VIDEOS"; data: any }
+  | { type: "REQUESTING_UPLOAD_VIDEO" }
+  | { type: "UPLOAD_VIDEO_SUCCESS"; data: any }
+  | { type: "UPLOAD_VIDEO_FAILURE"; data: any }
+  | { type: "REQUESTING_DELETE_VIDEO" }
+  | { type: "RECEIVED_DELETE_VIDEO"; data: any }
+  | { type: "DELETE_VIDEO_FAILED"; data: any }
+  | { type: "CLEAR_FLASH_MESSAGE" };
+
+const groupByStatus = (uploads: IState["uploadsByID"]): IUploads => {
+  console.log("got uploads!!", uploads);
+  return Object.values(uploads).reduce(
+    (r, v) => {
+      r[v.status] ||= [];
+      r[v.status].push(v);
+      return r;
+    },
+    { pending: [], approved: [] }
+  ); // Fix: Provide initial value matching the shape of IUploads
 };
 
-const reducer = (state, action) => {
+const reducer = (state: IState, action: Action): IState => {
   switch (action.type) {
-    case 'RECEIVED_AUTH': {
+    case "RECEIVED_AUTH": {
       return {
         ...state,
         ...{
           user: {
             ...action.data,
-            profile: JSON.parse(action.data.profile)
-          }
-        }
+            profile: JSON.parse(action.data.profile),
+          },
+        },
       };
     }
-    case 'RECEIVED_LOGOUT': {
+    case "RECEIVED_LOGOUT": {
       return {
         ...state,
-        user: {}
-      }
+        user: {},
+      };
     }
-    case 'REQUESTING_VIDEOS': {
+    case "REQUESTING_VIDEOS": {
       return {
         ...state,
         loading: true,
-      }
+      };
     }
-    case 'RECEIVED_VIDEOS': {
+    case "RECEIVED_VIDEOS": {
       const byID = action.data.reduce((r, v) => {
         r[v.id] = v;
         return r;
@@ -54,15 +115,15 @@ const reducer = (state, action) => {
         loading: false,
         uploadsByID: byID,
         uploads: groupByStatus(byID),
-      }
+      };
     }
-    case 'REQUESTING_UPLOAD_VIDEO': {
+    case "REQUESTING_UPLOAD_VIDEO": {
       return {
         ...state,
         uploadingVideo: true,
       };
     }
-    case 'UPLOAD_VIDEO_SUCCESS': {
+    case "UPLOAD_VIDEO_SUCCESS": {
       const uploadsByID = {
         ...state.uploadsByID,
         [action.data.video.id]: action.data.video,
@@ -73,49 +134,52 @@ const reducer = (state, action) => {
         flashMessage: action.data.flashMessage,
         uploadingVideo: false,
         uploadsByID,
-        uploads: groupByStatus(uploadsByID)
+        uploads: groupByStatus(uploadsByID),
       };
     }
-    case 'UPLOAD_VIDEO_FAILURE': {
+    case "UPLOAD_VIDEO_FAILURE": {
       return {
         ...state,
         flashMessage: action.data.flashMessage,
       };
     }
-    case 'REQUESTING_DELETE_VIDEO': {
+    case "REQUESTING_DELETE_VIDEO": {
       return {
         ...state,
         loading: true,
-      }
+      };
     }
-    case 'RECEIVED_DELETE_VIDEO': {
-      const uploadsByID = Object.values(state.uploadsByID).reduce((r, u) => {
-        if (u.id === action.data.id) return r;
+    case "RECEIVED_DELETE_VIDEO": {
+      const uploadsByID = Object.values(state.uploadsByID).reduce(
+        (r, u) => {
+          if (u.id === action.data.id) return r;
 
-        r[u.id] = u;
-        return r;
-      }, {});
+          r[u.id] = u;
+          return r;
+        },
+        {} as IState["uploadsByID"]
+      );
 
       return {
         ...state,
         loading: false,
         uploadsByID,
-        uploads: groupByStatus(uploadsByID)
-      }
+        uploads: groupByStatus(uploadsByID),
+      };
     }
-    case 'DELETE_VIDEO_FAILED': {
+    case "DELETE_VIDEO_FAILED": {
       return {
         ...state,
         loading: false,
         flashMessage: {
-          type: 'failure',
-          header: 'Delete video failed',
+          type: "failure",
+          header: "Delete video failed",
           body: `Error deleting video: ${action.data.error}`,
-          flashDuration: 5000
-        }
+          flashDuration: 5000,
+        },
       };
     }
-    case 'CLEAR_FLASH_MESSAGE': {
+    case "CLEAR_FLASH_MESSAGE": {
       return {
         ...state,
         flashMessage: {},
