@@ -1,13 +1,4 @@
-import { redirect, ActionFunction } from 'react-router-dom'
-
-const BASE_URI = import.meta.env.API_URI
-
-const test = (dispatch, navigate, redirectUrl) => {
-    // just a settimeout test to simulate a fetch request
-    setTimeout(() => {
-        dispatch({ type: 'RECEIVED_AUTH', data: { ok: true } })
-    }, 1000)
-}
+const BASE_URI = process.env.API_URI
 
 const authenticate = (dispatch, navigate, redirectUrl) => {
     dispatch({ type: 'REQUESTING_AUTH' })

@@ -5,15 +5,13 @@ import { getVideos } from '@actions'
 
 import './styles.css'
 
-const API_URI = import.meta.env.API_URI
 const Home = () => {
-    //const [file, setFile] = useState(null)
-    //const [metadata, setMetadata] = useState({})
-    //const [uploadStatus, setUploadStatus] = useState(null)
-    //@ts-ignore
+    const [file, setFile] = useState(null)
+    const [metadata, setMetadata] = useState({})
+    const [uploadStatus, setUploadStatus] = useState(null)
     const { state, dispatch } = useOutletContext()
-    //const fileInputRef = useRef(null)
-    const [uploads, setUploads] = useState([])
+    const fileInputRef = useRef(null)
+    const [uploads, setUploads] = useState({})
 
     useEffect(() => {
         let ignore = false
@@ -39,14 +37,12 @@ const Home = () => {
 
     return (
         <div className="Home">
-            <h1 className="title block">Hello {`${state.user?.profile?.name}`} blep</h1>
-            <pre>{JSON.stringify(state, null, 2)} </pre>
-
+            <h1 className="title block">Hello {`${state.user?.profile?.name}`}</h1>
             <h2 className="subtitle block uploads">Todos</h2>
             <div className="card pending">
                 <div className="card-content">
-                    <h2 className="title">Pending Approval</h2>
-                    {/*{!uploads.pending?.length ? (
+                    <h2 class="title">Pending Approval</h2>
+                    {!uploads.pending?.length ? (
                         <div className="no-videos">No pending videos</div>
                     ) : (
                         uploads.pending?.map((u, index) => {
@@ -58,16 +54,19 @@ const Home = () => {
                                     <div className="subtitle">{metadata.title}</div>
                                     <div className="video">
                                         <video
-                                            src={`${API_URI}/v1/stream/${u.filename}`}
+                                            src={`${process.env.API_URI}/v1/stream/${u.filename}`}
                                             controls
                                         />
                                         <button
                                             className="button"
                                             onClick={() => {
-                                                fetch(`${API_URI}/v1/videos/${u.id}/approve`, {
-                                                    method: 'POST',
-                                                    credentials: 'include',
-                                                }).then(() => {
+                                                fetch(
+                                                    `${process.env.API_URI}/v1/videos/${u.id}/approve`,
+                                                    {
+                                                        method: 'POST',
+                                                        credentials: 'include',
+                                                    }
+                                                ).then(() => {
                                                     setUploads(
                                                         uploads.pending.filter((v) => v.id !== u.id)
                                                     )
@@ -80,7 +79,7 @@ const Home = () => {
                                 </div>
                             )
                         })
-                    )}*/}
+                    )}
                 </div>
             </div>
         </div>

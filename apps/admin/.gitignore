@@ -1,13 +1,18 @@
 .DS_Store
-node_modules
-.turbo
 *.log
-dist
 dist-ssr
 *.local
 .env
 .cache
 server/dist
 public/dist
+node_modules
+dist
 .wrangler
-vite.config.ts.timestamp*
+.dev.vars
+
+# Change them to your taste:
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+*~*
