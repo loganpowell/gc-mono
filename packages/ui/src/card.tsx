@@ -1,6 +1,19 @@
 import { type ReactNode } from "react";
 
-export function Card({ title, href, description, video, img }): JSX.Element {
+interface ICard {
+  title: string;
+  description: string;
+  video?: string;
+  img?: string;
+  href?: string;
+}
+export function Card({
+  title,
+  description,
+  video,
+  img,
+  href,
+}: ICard): JSX.Element {
   return (
     <div className="m-3 bg-white border border-gray-200 rounded-md shadow dark:bg-gray-800 dark:border-gray-700">
       {/* <img

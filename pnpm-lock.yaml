@@ -270,6 +270,9 @@ importers:
       husky:
         specifier: ^9.0.11
         version: 9.0.11
+      npm-pkg:
+        specifier: ^2.0.0
+        version: 2.0.0
       postcss:
         specifier: ^8.4.35
         version: 8.4.38
@@ -6253,6 +6256,11 @@ packages:
   /normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /npm-pkg@2.0.0:
+    resolution: {integrity: sha512-jHUbDv9YKHO06XWF0rE5qXEOWKqkg7GE3TRmoNhffJQzIumAzXZD2AKfSol971X0JokshUQgYuq9uoYJcINsFg==}
+    deprecated: Deprecated
     dev: true
 
   /npm-run-path@4.0.1:

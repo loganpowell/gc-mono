@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "wkspc:set": "npm pkg set @repo/ui=* && npm pkg set @repo/utils=*",
+    "wkspc:forget": "npm pkg set @repo/ui=workspace:* && npm pkg set @repo/utils=workspace:*",
     "build": "tsc && vite build",
-    "deploy": "pnpm build && npx wrangler pages deploy dist",
+    "deploy": "npm build && npx wrangler pages deploy dist",
     "preview": "vite preview",
     "prepare": "husky install",
     "lint": "eslint \"src/**/*.ts\""
@@ -23,10 +25,10 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@repo/constants": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@repo/constants": "workspace:*",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
@@ -37,6 +39,7 @@
     "drizzle-orm": "^0.29.4",
     "eslint": "^8.57.0",
     "husky": "^9.0.11",
+    "npm-pkg": "^2.0.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.3.3",
