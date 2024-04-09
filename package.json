@@ -3,6 +3,9 @@
   "scripts": {
     "hydrate": "sh ./scripts/hydrate.sh",
     "build": "turbo build",
+    "build:app": "turbo build --filter app",
+    "build:admin": "turbo build --filter admin",
+    "build:medic": "turbo build --filter medic",
     "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "clean": "turbo clean",

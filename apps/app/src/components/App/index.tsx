@@ -1,7 +1,7 @@
 // import "./styles.css";
 // import "./styles-large.css";
 
-import { useState, useReducer } from "react";
+import React, { useState, useReducer } from "react";
 import { injectIntl } from "react-intl";
 // import PropTypes from "prop-types";
 

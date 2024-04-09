@@ -46,7 +46,7 @@ const Home = () => {
     return () => {
       ignore = true;
     };
-  }, [uploads.pending]);
+  }, [uploads.pending?.length]);
 
   return (
     <div className="Home">

@@ -141,7 +141,6 @@ app.get("/v1/todos", async (c: Context) => {
     return new Response("unauthorized", { status: 401 });
   }
   const matchingVideos = await Video(c.var.db).getUnReviewed();
-
   return new Response(JSON.stringify(matchingVideos));
 });
 

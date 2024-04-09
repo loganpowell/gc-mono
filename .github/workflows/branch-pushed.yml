@@ -29,3 +29,31 @@ jobs:
         run: pnpm install
       - name: Lint
         run: pnpm lint
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Deploy to Cloudflare Workers with Wrangler
+        uses: cloudflare/wrangler-action@v3.4.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "2.20.0"
+          workingDirectory: "subfoldername"
+        #   secrets: |
+        #     SECRET1
+        #     SECRET2
+        # env:
+        #   SECRET1: ${{ secrets.SECRET1 }}
+        #   SECRET2: ${{ secrets.SECRET2 }}
