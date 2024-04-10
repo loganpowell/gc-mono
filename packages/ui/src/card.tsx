@@ -16,11 +16,6 @@ export function Card({
 }: ICard): JSX.Element {
   return (
     <div className="m-3 bg-white border border-gray-200 rounded-md shadow dark:bg-gray-800 dark:border-gray-700">
-      {/* <img
-          className="rounded-t-lg"
-          src="/docs/images/blog/image-1.jpg"
-          alt=""
-        /> */}
       {img ? (
         <img className="rounded-t-lg" src={img} alt="" />
       ) : video ? (
