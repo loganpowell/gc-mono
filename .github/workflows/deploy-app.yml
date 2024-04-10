@@ -30,6 +30,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          environment: production
           workingDirectory: apps/app
-          command: pages deploy apps/app/dist --project-name=gc-app
+          command: pages deploy dist --project-name=gc-app
           packageManager: pnpm
