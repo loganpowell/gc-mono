@@ -25,11 +25,12 @@ jobs:
         run: pnpm install
       - name: Build dist bundle
         run: pnpm build:app
-      - name: Deploy - App
-        uses: cloudflare/pages-action@1
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
         with:
+          wranglerVersion: "3"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: "gc-app" # e.g. 'my-project'
-          directory: "apps/app/dist" # e.g. 'dist'
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: "apps/app"
+          command: pages deploy dist --project-name=gc-app
+          packageManager: "pnpm"
