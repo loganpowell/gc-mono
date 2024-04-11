@@ -1,15 +1,15 @@
-name: deploy-app
+name: deploy-admin
 
 on:
   push:
     paths:
-      - "apps/app/**"
+      - "apps/admin/**"
       - "packages/ui/**"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy to Cloudflare Pages - App
+    name: Deploy to Cloudflare Pages - Admin
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,13 +23,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build dist bundle
-        run: pnpm build:app
+        run: pnpm build:admin
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           wranglerVersion: "3"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: "apps/app"
-          command: pages deploy dist --project-name=gc-app
+          workingDirectory: "apps/admin"
+          command: pages deploy dist --project-name=gc-admin
           packageManager: "pnpm"
