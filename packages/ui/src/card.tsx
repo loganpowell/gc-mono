@@ -19,14 +19,16 @@ export function Card({
       {img ? (
         <img className="rounded-t-lg" src={img} alt="" />
       ) : video ? (
-        <video controls width="100% !important" height="auto !important">
+        <video
+          controls
+          preload="auto"
+          width="100% !important"
+          height="auto !important"
+        >
           <source src={video} />
           Your device does not support video playback
         </video>
-      ) : //   <video-js id="vid1" controls preload="auto">
-      //     <source src={video} type="application/x-mpegURL" />
-      //   </video-js>
-      null}
+      ) : null}
       <div className="p-5">
         <a href={href}>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

@@ -98,7 +98,7 @@ app.post("/v1/videos", async (c: Context) => {
   const bytes = Array.from(new Uint8Array(digest));
   const md5 = bytes.map((b) => b.toString(16).padStart(2, "0")).join("");
 
-  await (c.env as any).R2.put(file.name, fileData);
+  await c.env.R2.put(file.name, fileData);
 
   const video =
     (await Video(c.var.db).create({
@@ -120,9 +120,13 @@ app.post("/v1/videos", async (c: Context) => {
 app.get("/v1/videos", async (c: Context) => {
   const user = await currentUser(c);
   // check if user is admin
-  const matchingVideos = await Video(c.var.db).getByUploader(user.id);
-
-  return new Response(JSON.stringify(matchingVideos));
+  if (!user) {
+    console.log("User Needs to Login!");
+    return new Response("unauthorized", { status: 401 });
+  } else {
+    const matchingVideos = await Video(c.var.db).getByUploader(user.id);
+    return new Response(JSON.stringify(matchingVideos));
+  }
 });
 
 app.post("/v1/videos/:id/approve", async (c: Context) => {
