@@ -121,7 +121,7 @@ app.get("/v1/videos", async (c: Context) => {
   const user = await currentUser(c);
   // check if user is admin
   if (!user) {
-    console.log("User Needs to Login!");
+    console.log("User Needs to Login");
     return new Response("unauthorized", { status: 401 });
   } else {
     const matchingVideos = await Video(c.var.db).getByUploader(user.id);
