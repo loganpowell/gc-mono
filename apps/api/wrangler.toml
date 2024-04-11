@@ -29,8 +29,12 @@ ALLOWED_ORIGINS = "http://localhost:8787, http://localhost:8788, http://localhos
 
 [env.production]
 name = "api"
+# d1_databases = [
+#  { binding = "DB", database_name = "gaza-care-production", database_id = "9a5db72f-50cf-4b31-886e-f5064610194c"}
+# ]
+
 d1_databases = [
-  { binding = "DB", database_name = "gaza-care-production", database_id = "9a5db72f-50cf-4b31-886e-f5064610194c"}
+ { binding = "DB", database_name = "gaza-care-production", database_id = "ff777286-3a2d-4e42-aa9c-81118e53abe4"}
 ]
 
 r2_buckets = [
@@ -38,4 +42,4 @@ r2_buckets = [
 ]
 
 [env.production.vars]
-ALLOWED_ORIGINS = "https://medic.gaza-care.com, https://admin.gaza-care.com, https://app.gaza-care.com"
+ALLOWED_ORIGINS = "https://medic.gaza-care.com, https://admin.gaza-care.com, https://app.gaza-care.com, https://gc-admin.pages.dev, https://gc-app.pages.dev, https://gc-medic.pages.dev"
