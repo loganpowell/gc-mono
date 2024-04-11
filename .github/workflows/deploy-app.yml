@@ -25,11 +25,11 @@ jobs:
         run: pnpm install
       - name: Build dist bundle
         run: pnpm build:app
-      - name: Deploy: App
+      - name: Deploy - App
         uses: cloudflare/pages-action@1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: 'gc-app' # e.g. 'my-project'
-          directory: 'apps/app/dist' # e.g. 'dist'
+          projectName: "gc-app" # e.g. 'my-project'
+          directory: "apps/app/dist" # e.g. 'dist'
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
