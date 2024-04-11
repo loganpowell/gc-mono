@@ -1,10 +1,9 @@
-name: deploy-medic
+name: deploy-api
 
 on:
   push:
     paths:
-      - "apps/medic/**"
-      - "packages/ui/**"
+      - "apps/api/**"
 
 jobs:
   deploy:
@@ -23,13 +22,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build dist bundle
-        run: pnpm build:medic
+        run: pnpm build:api
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           wranglerVersion: "3"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: "apps/medic"
-          command: pages deploy dist --project-name=gc-medic
+          workingDirectory: "apps/api"
+          command: deploy -e production --minify src/index.ts
           packageManager: "pnpm"
