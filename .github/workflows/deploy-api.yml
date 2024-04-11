@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy to Cloudflare Pages - App
+    name: Deploy to Cloudflare Workers - API
     steps:
       - name: Checkout
         uses: actions/checkout@v4
