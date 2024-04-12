@@ -120,7 +120,7 @@ app.post("/v1/videos", async (c: Context) => {
 app.get("/v1/videos", async (c: Context) => {
   const user = await currentUser(c);
   if (!user) {
-    console.log("User Needs to Login.. Check credentials");
+    console.log("User Needs to Login.. check credentials");
     return new Response("unauthorized", { status: 401 });
   } else {
     const matchingVideos = await Video(c.var.db).getByUploader(user.id);
