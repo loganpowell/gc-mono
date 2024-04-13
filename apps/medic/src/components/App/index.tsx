@@ -11,6 +11,16 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (state.user.uid) return;
+
+    authenticate(
+      dispatch,
+      navigate,
+      window.location.pathname.replace("/login", "")
+    );
+  }, [state.user.uid]);
+
   return (
     <div className="App">
       {state.user.uid && (

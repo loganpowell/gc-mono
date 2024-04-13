@@ -143,6 +143,13 @@ const Home = () => {
               return (
                 <div key={index} className="flex flex-col max-w-xl md:mx-auto">
                   <div className="video">
+                    <div className="delete-button">
+                      <button
+                        className="delete is-large"
+                        onClick={() => deleteVideo(dispatch, u.id)}
+                      ></button>
+                    </div>
+
                     <Card
                       video={`${process.env.API_URI}/v1/stream/${u.filename}`}
                       title={metadata.title}

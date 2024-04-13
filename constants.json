@@ -1,9 +1,9 @@
 {
   "ports": {
-    "admin": 8787,
-    "app": 8788,
-    "medic": 8789,
+    "admin": 8789,
+    "app": 8790,
+    "medic": 8788,
     "template": 9090,
-    "api": 8080
+    "api": 8787
   }
 }

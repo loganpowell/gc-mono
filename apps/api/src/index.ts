@@ -76,7 +76,7 @@ app.get("/v1/session", async (c: Context) => {
   if (user) {
     return new Response(JSON.stringify(user), { status: 200 });
   }
-
+  console.log("User Needs to Login.. check credentials");
   return new Response("unauthorized", { status: 401 });
 });
 
@@ -200,7 +200,7 @@ app.get("/v1/stream/:filename", async (c: Context) => {
   const { readable, writable } = new TransformStream();
 
   file.body.pipeTo(writable);
-
+  console.log("streaming file");
   return new Response(readable, { headers, status });
 });
 

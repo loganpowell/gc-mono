@@ -13,9 +13,11 @@ const root = createRoot(container);
 
 const router = createBrowserRouter([routes]);
 
+const GAPID = process.env.GOOGLE_API_CLIENT_ID as string;
+// console.log({ GAPID });
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={process.env.GOOGLE_API_CLIENT_ID as string}>
+    <GoogleOAuthProvider clientId={GAPID}>
       <RouterProvider router={router} />
     </GoogleOAuthProvider>
   </React.StrictMode>
