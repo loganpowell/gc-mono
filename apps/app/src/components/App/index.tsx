@@ -1,11 +1,10 @@
 import React, { useState, useReducer } from "react";
 import { injectIntl } from "react-intl";
 
+import Logo from "@assets/images/logo.png";
 import { search } from "@actions";
 import { SearchBar } from "@ui/search-bar";
 import SearchResult from "@components/SearchResult";
-import Logo from "@assets/images/logo.png";
-import PostCard from "@ui/postcard";
 
 import { initialState, reducer } from "@reducer";
 import { CategoryCard } from "@components/category";
