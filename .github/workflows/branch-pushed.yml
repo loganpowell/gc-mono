@@ -48,7 +48,7 @@ jobs:
   #     - name: Deploy to Cloudflare Workers with Wrangler
   #       uses: cloudflare/wrangler-action@v3.4.1
   #       with:
-  #         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  #         apiToken: ${{ secrets.GAZA_CARE_CLOUDFLARE_API_TOKEN }}
   #         wranglerVersion: "2.20.0"
   #         workingDirectory: "subfoldername"
   #         secrets: |
