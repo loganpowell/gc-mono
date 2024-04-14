@@ -31,18 +31,10 @@ const App = ({ intl }) => {
       <div className="mx-auto max-w-xs p-3">
         <div className="aspect-w-1 aspect-h-1">
           <div className="grid grid-cols-2 gap-4">
-            <CategoryCard>
-              <img src={Logo} />
-            </CategoryCard>
-            <CategoryCard>
-              <img src={Logo} />
-            </CategoryCard>
-            <CategoryCard>
-              <img src={Logo} />
-            </CategoryCard>
-            <CategoryCard>
-              <img src={Logo} />
-            </CategoryCard>
+            <CategoryCard img={Logo} link="#" title="Wound Care" />
+            <CategoryCard img={Logo} link="#" title="Burn Care" />
+            <CategoryCard img={Logo} link="#" title="Stopping Bleeding" />
+            <CategoryCard img={Logo} link="#" title="Resuscitation" />
           </div>
         </div>
       </div>
