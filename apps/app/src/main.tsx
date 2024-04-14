@@ -1,19 +1,16 @@
 import "@repo/ui/styles.css";
 import "./main.css";
-// import { createRoot } from 'react-dom/client'
-// import Page from './page'
-// import Stub from '@components/Stub'
-
-import { H } from "highlight.run";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ErrorBoundary } from "@highlight-run/react";
-
 import { routes } from "./routes";
+
 import Arabic from "@lang/ar.json";
 import English from "@lang/en.json";
+
+import { H } from "highlight.run";
 import { IntlProvider } from "react-intl";
 
 H.init("6gl9vozg", {
@@ -41,8 +38,6 @@ if (locale.includes("en")) {
 }
 
 const container = document.getElementById("app") as HTMLElement;
-container.classList.add("root");
-container.classList.add("is-dark");
 
 const root = createRoot(container);
 

@@ -1,23 +1,22 @@
-// import "./styles.css";
-// import "./styles-large.css";
-
 import React, { useState, useReducer } from "react";
 import { injectIntl } from "react-intl";
-// import PropTypes from "prop-types";
 
 import { search } from "@actions";
 import { SearchBar } from "@ui/search-bar";
 import SearchResult from "@components/SearchResult";
 import Logo from "@assets/images/logo.png";
+import PostCard from "@ui/postcard";
 
 import { initialState, reducer } from "@reducer";
+import { CategoryCard } from "@components/category";
+import { GazaBanner } from "@components/banner";
 
 const App = ({ intl }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <div className="py-3 px-3">
+    <div className="py-3 px-3 w-full items-center">
       <div className="w-80">
         <ul>
           <li>
@@ -27,13 +26,28 @@ const App = ({ intl }) => {
           </li>
         </ul>
       </div>
-      <div className="w-1/4 m-auto">
-        <img src={Logo} alt="gaza care logo" />
+      <GazaBanner img={Logo} message={intl.formatMessage({ id: "app-info" })} />
+
+      <div className="mx-auto max-w-xs p-3">
+        <div className="aspect-w-1 aspect-h-1">
+          <div className="grid grid-cols-2 gap-4">
+            <CategoryCard>
+              <img src={Logo} />
+            </CategoryCard>
+            <CategoryCard>
+              <img src={Logo} />
+            </CategoryCard>
+            <CategoryCard>
+              <img src={Logo} />
+            </CategoryCard>
+            <CategoryCard>
+              <img src={Logo} />
+            </CategoryCard>
+          </div>
+        </div>
       </div>
-      <div className="text-center">
-        {intl.formatMessage({ id: "app-info" })}
-      </div>
-      <div className="m-6">
+
+      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md p-4">
         <SearchBar
           onClick={async () => {
             const language = navigator.language.split("-")[0];
@@ -44,7 +58,8 @@ const App = ({ intl }) => {
           placeholder={intl.formatMessage({ id: "search" })}
         />
       </div>
-      <div className="flex flex-col max-w-xl md:mx-auto">
+
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {state.searchResults.map((sr, index) => {
           console.log({ sr });
           return <SearchResult key={index} sr={sr} />;
@@ -55,7 +70,3 @@ const App = ({ intl }) => {
 };
 
 export default injectIntl(App);
-
-// App.propTypes = {
-//   intl: PropTypes.object,
-// };

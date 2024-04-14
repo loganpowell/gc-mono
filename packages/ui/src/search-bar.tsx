@@ -1,6 +1,6 @@
 export const SearchBar = ({ onClick, onChange, placeholder }) => {
   return (
-    <form className="flex max-w-xl md:mx-auto" min-width="400 500 600 700 800">
+    <form className="flex w-full">
       <div className="w-full">
         <div className="relative h-full">
           <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none"></div>

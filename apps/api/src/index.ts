@@ -9,6 +9,12 @@ import { User, UserIdentity, AuthProvider, Video } from "@models";
 // import { authenticate } from "@repo/utils";
 const app = new Hono();
 
+declare module "hono" {
+  interface ContextVariableMap {
+    db: string;
+  }
+}
+
 app.use("*", async (c: Context, next) => {
   const origins = c.env.ALLOWED_ORIGINS;
   const corsMiddleware = cors({

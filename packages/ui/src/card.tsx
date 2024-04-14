@@ -15,7 +15,7 @@ export function Card({
   href,
 }: ICard): JSX.Element {
   return (
-    <div className="m-3 bg-white border border-gray-200 rounded-md shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="aspect-video py-3 px-1 mb-2 inline-block w-full">
       {img ? (
         <img className="rounded-t-lg" src={img} alt="" />
       ) : video ? (
@@ -29,16 +29,16 @@ export function Card({
           Your device does not support video playback
         </video>
       ) : null}
-      <div className="p-5">
+      <div className="p-3">
         <a href={href}>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {title}
           </h5>
         </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+        <p className="font-normal text-gray-700 dark:text-gray-400">
           {description}
         </p>
-        <a
+        {/* <a
           href="#"
           className="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
@@ -58,7 +58,7 @@ export function Card({
               d="M1 5h12m0 0L9 1m4 4L9 9"
             />
           </svg>
-        </a>
+        </a> */}
       </div>
     </div>
   );
