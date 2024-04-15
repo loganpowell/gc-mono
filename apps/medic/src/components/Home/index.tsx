@@ -151,7 +151,7 @@ const Home = () => {
                     </div>
 
                     <Card
-                      video={`${process.env.API_URI}/v1/stream/${u.filename}`}
+                      video={`${process.env.VITE_API_URI}/v1/stream/${u.filename}`}
                       title={metadata.title}
                       description={metadata.description}
                     />
@@ -184,7 +184,7 @@ const Home = () => {
                   </div>
                   <div className="video">
                     <video
-                      src={`${process.env.API_URI}/v1/stream/${u.filename}`}
+                      src={`${process.env.VITE_API_URI}/v1/stream/${u.filename}`}
                       controls
                     />
                   </div>

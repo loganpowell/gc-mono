@@ -23,6 +23,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build dist bundle
+        env:
+          VITE_API_URI: ${{ vars.API_URI }}
+          VITE_GOOGLE_API_CLIENT_ID: ${{ vars.GOOGLE_API_CLIENT_ID }}
         run: pnpm build:app
       - name: Deploy
         uses: cloudflare/wrangler-action@v3

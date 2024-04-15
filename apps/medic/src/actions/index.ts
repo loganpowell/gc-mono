@@ -1,4 +1,4 @@
-const BASE_URI = process.env.API_URI;
+const BASE_URI = process.env.VITE_API_URI;
 
 const authenticate = (dispatch, navigate, redirectUrl) => {
   dispatch({ type: "REQUESTING_AUTH" });

@@ -28,7 +28,7 @@ const Login = () => {
         shape="pill"
         ux_mode="popup"
         onSuccess={(response) => {
-          fetch(`${process.env.API_URI}/v1/auth/google/success`, {
+          fetch(`${process.env.VITE_API_URI}/v1/auth/google/success`, {
             method: "POST",
             credentials: "include",
             headers: {

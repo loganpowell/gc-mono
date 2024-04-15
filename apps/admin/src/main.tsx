@@ -13,7 +13,7 @@ const root = createRoot(container);
 
 const router = createBrowserRouter([routes]);
 
-const GAPID = process.env.GOOGLE_API_CLIENT_ID as string;
+const GAPID = process.env.VITE_GOOGLE_API_CLIENT_ID as string;
 // console.log({ GAPID });
 root.render(
   <React.StrictMode>

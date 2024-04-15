@@ -1,4 +1,4 @@
-const API_URI = process.env.API_URI;
+const API_URI = process.env.VITE_API_URI;
 
 const test = (dispatch, navigate, redirectUrl) => {
   // just a settimeout test to simulate a fetch request

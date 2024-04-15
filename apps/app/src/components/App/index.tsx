@@ -19,7 +19,7 @@ const App = ({ intl }) => {
       <div className="w-80">
         <ul>
           <li>
-            <a href={process.env.MEDIC_APP_URL}>
+            <a href={process.env.VITE_MEDIC_APP_URL}>
               {intl.formatMessage({ id: "medic-link" })}
             </a>
           </li>
