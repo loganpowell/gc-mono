@@ -15,7 +15,7 @@ export function Card({
   href,
 }: ICard): JSX.Element {
   return (
-    <div className="aspect-video py-3 px-1 mb-2 inline-block w-full">
+    <div className="aspect-video py-2 px-2 mb-2 inline-block w-full">
       {img ? (
         <img className="rounded-t-lg" src={img} alt="" />
       ) : video ? (
