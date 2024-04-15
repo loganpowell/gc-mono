@@ -28,6 +28,7 @@ jobs:
           VITE_GOOGLE_API_CLIENT_ID: ${{ vars.GOOGLE_API_CLIENT_ID }}
         run: pnpm build:app
       - name: Deploy
+        id: wrangler
         uses: cloudflare/wrangler-action@v3
         with:
           wranglerVersion: "3"
