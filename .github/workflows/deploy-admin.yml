@@ -31,5 +31,5 @@ jobs:
           apiToken: ${{ secrets.GAZA_CARE_CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.GAZA_CARE_CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: "apps/admin"
-          command: pages deploy dist --project-name=gc-admin
+          command: pages deploy dist --project-name=admin
           packageManager: "pnpm"
