@@ -1,11 +1,11 @@
-// import * as MESSAGES from "@langs/index.js";
+import * as MESSAGES from "@lang/index.js";
 const initialState = {
   loading: false,
   searchResults: [],
   locale: navigator.language.includes("en") ? "en" : "ar",
   messages: navigator.language.includes("en")
-    ? "" // MESSAGES.ENGLISH
-    : "", // MESSAGES.ARABIC,
+    ? MESSAGES.ENGLISH
+    : MESSAGES.ARABIC,
 };
 
 const reducer = (state, action) => {
@@ -27,11 +27,11 @@ const reducer = (state, action) => {
       const getMessages = (locale) => {
         switch (locale) {
           case "en":
-            return ""; // MESSAGES.ENGLISH;
+            return MESSAGES.ENGLISH;
           case "ar":
-            return ""; // MESSAGES.ARABIC;
+            return MESSAGES.ARABIC;
           default:
-            return ""; // MESSAGES.ARABIC;
+            return MESSAGES.ARABIC;
         }
       };
       return {

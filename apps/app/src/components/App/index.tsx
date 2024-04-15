@@ -9,13 +9,16 @@ import SearchResult from "@components/SearchResult";
 import { initialState, reducer } from "@reducer";
 import { CategoryCard } from "@components/category";
 import { GazaBanner } from "@components/banner";
+import LanguageSelector from "@components/LanguageSelector";
 
 const App = ({ intl }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <div className="py-3 px-3 w-full items-center">
+    <div className="py-3 px-3 w-full items-center m-0">
+      <LanguageSelector />
+
       <div className="w-80">
         <ul>
           <li>

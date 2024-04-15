@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ErrorBoundary } from "@highlight-run/react";
 import { routes } from "./routes";
+import { LocaleProvider } from "@context/LocaleContext";
 
 import Arabic from "@lang/ar.json";
 import English from "@lang/en.json";
@@ -46,9 +47,9 @@ const router = createBrowserRouter([routes]);
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <IntlProvider locale={locale} messages={lang}>
+      <LocaleProvider>
         <RouterProvider router={router} />
-      </IntlProvider>
+      </LocaleProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );
