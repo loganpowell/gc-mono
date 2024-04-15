@@ -30,3 +30,6 @@ jobs:
           workingDirectory: "apps/api"
           command: deploy -e production --minify src/index.ts
           packageManager: "pnpm"
+      - name: Generate summary
+        run: |
+          echo "### Preview URL: ${{ steps.wrangler.outputs.url }}" >> $GITHUB_STEP_SUMMARY

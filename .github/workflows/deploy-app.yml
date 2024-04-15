@@ -36,3 +36,6 @@ jobs:
           workingDirectory: "apps/app"
           command: pages deploy dist --project-name=gaza-care-app
           packageManager: "pnpm"
+      - name: Generate summary
+        run: |
+          echo "### Preview URL: ${{ steps.wrangler.outputs.url }}" >> $GITHUB_STEP_SUMMARY

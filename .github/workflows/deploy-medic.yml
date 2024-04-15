@@ -36,3 +36,6 @@ jobs:
           workingDirectory: "apps/medic"
           command: pages deploy dist --project-name=medic
           packageManager: "pnpm"
+      - name: Generate summary
+        run: |
+          echo "### Preview URL: ${{ steps.wrangler.outputs.url }}" >> $GITHUB_STEP_SUMMARY
